@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import java.util.Collection;
+import java.util.*;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
@@ -38,6 +38,11 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   @VisibleForTesting final WritableAssertionInfo info;
   // visibility is protected to allow us write custom assertions that need access to actual
   @VisibleForTesting protected final A actual;
+  /**
+   * Used to compare {@link #actual} with other objects in assertions like {@link #isEqualTo(Object)} or {@link #isIn(Object...)}.<br>  
+   * Visibility is protected as child class may need access the custom comparator when implementing specific assertion check.
+   */
+  protected Comparator<?> customComparator; // TODO FEST-64 also use it for isSorted assertion
 
   protected final S myself;
 
@@ -71,12 +76,25 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
   /** {@inheritDoc} */
   public S isEqualTo(A expected) {
-    objects.assertEqual(info, actual, expected);
+    if (mustUseCustomComparator()) {
+      objects.assertEqualUsingComparator(info, actual, expected, customComparator);
+    } else {
+      objects.assertEqual(info, actual, expected);
+    }
     return myself;
+  }
+
+  /**
+   * Returns true if we must use a custom strategy comparison, false for standard strategy comparison.
+   * @return true if we must use a custom strategy comparison, false for standard strategy comparison.
+   */
+  private boolean mustUseCustomComparator() {
+    return customComparator != null;
   }
 
   /** {@inheritDoc} */
   public S isNotEqualTo(A other) {
+    // TODO : FEST-64
     objects.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -106,12 +124,14 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
   /** {@inheritDoc} */
   public final S isIn(A... values) {
+    // TODO : FEST-64
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
   public final S isNotIn(A... values) {
+    // TODO : FEST-64
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
@@ -154,5 +174,18 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
   @VisibleForTesting final String descriptionText() {
     return info.descriptionText();
+  }
+  
+
+  /** {@inheritDoc} */
+  public S usingComparator(Comparator<?> customComparator) {
+    this.customComparator = customComparator;
+    return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public S usingDefaultComparator() {
+    this.customComparator = null;
+    return myself;
   }
 }

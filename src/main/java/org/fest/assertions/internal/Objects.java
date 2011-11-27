@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldBeEqual.*;
 import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
 import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
@@ -26,7 +26,7 @@ import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.util.Objects.areEqual;
 import static org.fest.util.ToString.toStringOf;
 
-import java.util.Collection;
+import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -52,7 +52,7 @@ public class Objects {
   @VisibleForTesting Failures failures = Failures.instance();
 
   @VisibleForTesting Objects() {}
-
+  
   /**
    * Verifies that the given object is an instance of the given type.
    * @param info contains information about the assertion.
@@ -116,6 +116,27 @@ public class Objects {
     throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
+  /**
+   * Asserts that two objects are equal according to given comparator.<br>
+   * It is client responsability to ensure that comparator is able to compare {@code actual} to {@code expected}. 
+   * @param info contains information about the assertion.
+   * @param actual the "actual" object.
+   * @param expected the "expected" object.
+   * @param comparator the {@link Comparator} that will be used to compare {@code actual} to {@code expected}.
+   * @throws NullPointerException if {@code comparator} is null
+   * @throws AssertionError if {@code actual} is not equal to {@code expected}. This method will throw a
+   * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not equal.
+   */
+  // Comparator can't be parameterized : 
+  // - if we use Comparator<Object>, AbstractAssert won't compile because Comparator<?> does not inherits from Comparator<Object> (generics are not reified)  
+  // - if we use Comparator<?>, Objects won't compile because compiler can't be sure that actual and expecte have the same real type  
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public void assertEqualUsingComparator(AssertionInfo info, Object actual, Object expected, Comparator comparator) {
+    if (comparator == null) throw new NullPointerException("comparator parameter should not be null");
+    if (comparator.compare(expected, actual) == 0) return;
+    throw failures.failure(info, shouldBeEqualUsingComparator(actual, expected, comparator));
+  }
+  
   /**
    * Asserts that two objects are not equal.
    * @param info contains information about the assertion.

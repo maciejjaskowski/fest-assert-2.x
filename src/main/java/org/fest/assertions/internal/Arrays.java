@@ -79,6 +79,7 @@ class Arrays {
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object values) {
+    // TODO : FEST-64
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> notFound = new LinkedHashSet<Object>();
@@ -92,6 +93,7 @@ class Arrays {
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
+    // TODO : FEST-64
     assertNotNull(info, array);
     assertNotEmpty(info, failures, array);
     checkIndexValueIsValid(index, sizeOf(array) - 1);
@@ -107,6 +109,7 @@ class Arrays {
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
+    // TODO : FEST-64
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     int indexValue = index.value;
@@ -117,6 +120,7 @@ class Arrays {
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object array, Object values) {
+    // TODO : FEST-64
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> notExpected = asSet(array);
@@ -145,6 +149,7 @@ class Arrays {
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
+    // TODO : FEST-64
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     boolean firstAlreadyFound = false;
@@ -172,6 +177,7 @@ class Arrays {
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
+    // TODO : FEST-64
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> found = new LinkedHashSet<Object>();
@@ -185,15 +191,17 @@ class Arrays {
   }
 
   private boolean arrayContains(Object array, Object value) {
+    // TODO : FEST-64
     int size = sizeOf(array);
     for (int i = 0; i < size; i++) {
       Object element = Array.get(array, i);
-      if (areEqual(element, value)) return true;
+      if (areEqual(element, value)) return true; // TODO FEST-64
     }
     return false;
   }
 
   void assertDoesNotHaveDuplicates(AssertionInfo info, Failures failures, Object array) {
+    // TODO : FEST-64
     assertNotNull(info, array);
     ArrayWrapperList wrapped = wrap(array);
     Collection<?> duplicates = duplicatesFrom(wrapped);
@@ -202,6 +210,7 @@ class Arrays {
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
+    // TODO : FEST-64
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
@@ -219,6 +228,7 @@ class Arrays {
   }
 
   void assertEndsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
+    // TODO : FEST-64
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
@@ -244,6 +254,7 @@ class Arrays {
 
   void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
+    // TODO : FEST-64
     assertThatArrayComponentTypeIsSortable(info, failures, array);
     try {
       // sorted assertion is only relevant if array elements are Comparable
