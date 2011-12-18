@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
 
+  // TODO FEST-64 
   @VisibleForTesting Longs longs = Longs.instance();
 
   protected LongAssert(Long actual) {

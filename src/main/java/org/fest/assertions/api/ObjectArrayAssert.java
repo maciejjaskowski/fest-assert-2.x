@@ -19,7 +19,7 @@ import java.util.Comparator;
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ObjectArrays;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Assertion methods for arrays of objects.
@@ -138,5 +138,19 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
   public ObjectArrayAssert isSortedAccordingTo(Comparator<? extends Object> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
+  }
+
+  @Override
+  public ObjectArrayAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public ObjectArrayAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.arrays = ObjectArrays.instance();
+    return myself;
   }
 }

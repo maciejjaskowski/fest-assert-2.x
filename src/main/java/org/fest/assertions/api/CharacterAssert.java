@@ -31,6 +31,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, Character> {
 
+  // TODO FEST-64 
   @VisibleForTesting Characters characters = Characters.instance();
 
   protected CharacterAssert(Character actual) {

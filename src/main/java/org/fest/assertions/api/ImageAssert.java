@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.util.Comparator;
 
 import org.fest.assertions.data.Offset;
 import org.fest.assertions.internal.Images;
@@ -90,5 +91,17 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
   public ImageAssert hasSize(Dimension expected) {
     images.assertHasSize(info, actual, expected);
     return this;
+  }
+
+  @Override
+  public ImageAssert usingComparator(Comparator<?> customComparator) {
+    throw new UnsupportedOperationException("custom Comparator is not supported for image comparison");
+  }
+  
+  @Override
+  public ImageAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.images = Images.instance();
+    return myself;
   }
 }

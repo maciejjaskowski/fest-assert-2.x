@@ -14,12 +14,16 @@
  */
 package org.fest.assertions.error;
 
+import org.fest.util.*;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code String} does not contain another
  * {@code String} failed.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
+//TODO FEST-64 test
 public class ShouldNotContainString extends BasicErrorMessageFactory {
 
   /**
@@ -29,10 +33,21 @@ public class ShouldNotContainString extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContain(String actual, String sequence) {
-    return new ShouldNotContainString(actual, sequence);
+    return new ShouldNotContainString(actual, sequence, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotContainString(String actual, String sequence) {
-    super("expecting:<%s> not to contain:<%s>", actual, sequence);
+  /**
+   * Creates a new <code>{@link ShouldNotContainString}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param sequence the sequence of values expected not to be in {@code actual}.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldNotContain(String actual, String sequence, ComparisonStrategy comparisonStrategy) {
+    return new ShouldNotContainString(actual, sequence, comparisonStrategy);
+  }
+  
+  private ShouldNotContainString(String actual, String sequence, ComparisonStrategy comparisonStrategy) {
+    super("expecting:<%s> not to contain:<%s>%s", actual, sequence, comparisonStrategy);
   }
 }

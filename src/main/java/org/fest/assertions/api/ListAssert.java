@@ -19,7 +19,7 @@ import java.util.*;
 import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.Lists;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Assertion methods for <code>{@link List}</code>s.
@@ -73,7 +73,7 @@ public class ListAssert extends AbstractCollectionAssert<ListAssert, List<?>> im
    * @throws AssertionError if the actual list elements are not mutually {@link Comparable}.
    */
   public ListAssert isSorted() {
-    lists.assertIsSorted(info, actual);
+    lists.assertIsSorted(info, actual); 
     return this;
   }
 
@@ -93,5 +93,19 @@ public class ListAssert extends AbstractCollectionAssert<ListAssert, List<?>> im
   public ListAssert isSortedAccordingTo(Comparator<? extends Object> comparator) {
     lists.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
+  }
+
+  @Override
+  public ListAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.lists = new Lists(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public ListAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.lists = Lists.instance();
+    return myself;
   }
 }

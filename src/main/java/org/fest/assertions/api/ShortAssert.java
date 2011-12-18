@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> implements NumberAssert<Short> {
 
+  // TODO FEST-64 
   @VisibleForTesting Shorts shorts = Shorts.instance();
 
   protected ShortAssert(Short actual) {

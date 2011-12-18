@@ -1,20 +1,20 @@
 /*
  * Created on Aug 4, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeEqual.*;
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
 import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
@@ -23,17 +23,16 @@ import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
-import static org.fest.util.Objects.areEqual;
 import static org.fest.util.ToString.toStringOf;
 
-import java.util.*;
+import java.util.Collection;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Reusable assertions for {@code Object}s.
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
@@ -42,17 +41,29 @@ public class Objects {
   private static final Objects INSTANCE = new Objects();
 
   /**
-   * Returns the singleton instance of this class.
-   * @return the singleton instance of this class.
+   * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Objects instance() {
     return INSTANCE;
   }
 
-  @VisibleForTesting Failures failures = Failures.instance();
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
-  @VisibleForTesting Objects() {}
+  private ComparisonStrategy comparisonStrategy;
   
+  // TODO also use a delegate for AssertionErrorFactory building ? 
+
+  @VisibleForTesting
+  Objects() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  public Objects(ComparisonStrategy comparisonStrategy) {
+    this.comparisonStrategy = comparisonStrategy;
+  }
+
   /**
    * Verifies that the given object is an instance of the given type.
    * @param info contains information about the assertion.
@@ -109,34 +120,14 @@ public class Objects {
    * @param actual the "actual" object.
    * @param expected the "expected" object.
    * @throws AssertionError if {@code actual} is not equal to {@code expected}. This method will throw a
-   * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not equal.
+   *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not
+   *           equal.
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
-    if (areEqual(expected, actual)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected));
+    if (areEqual(actual, expected)) return;
+    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy));
   }
 
-  /**
-   * Asserts that two objects are equal according to given comparator.<br>
-   * It is client responsability to ensure that comparator is able to compare {@code actual} to {@code expected}. 
-   * @param info contains information about the assertion.
-   * @param actual the "actual" object.
-   * @param expected the "expected" object.
-   * @param comparator the {@link Comparator} that will be used to compare {@code actual} to {@code expected}.
-   * @throws NullPointerException if {@code comparator} is null
-   * @throws AssertionError if {@code actual} is not equal to {@code expected}. This method will throw a
-   * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not equal.
-   */
-  // Comparator can't be parameterized : 
-  // - if we use Comparator<Object>, AbstractAssert won't compile because Comparator<?> does not inherits from Comparator<Object> (generics are not reified)  
-  // - if we use Comparator<?>, Objects won't compile because compiler can't be sure that actual and expecte have the same real type  
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public void assertEqualUsingComparator(AssertionInfo info, Object actual, Object expected, Comparator comparator) {
-    if (comparator == null) throw new NullPointerException("comparator parameter should not be null");
-    if (comparator.compare(expected, actual) == 0) return;
-    throw failures.failure(info, shouldBeEqualUsingComparator(actual, expected, comparator));
-  }
-  
   /**
    * Asserts that two objects are not equal.
    * @param info contains information about the assertion.
@@ -145,8 +136,18 @@ public class Objects {
    * @throws AssertionError if {@code actual} is equal to {@code other}.
    */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
-    if (!areEqual(other, actual)) return;
-    throw failures.failure(info, shouldNotBeEqual(actual, other));
+    if (!areEqual(actual, other)) return;
+    throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
+  }
+
+  /**
+   * Compares actual and other with standard strategy (null safe equals check).
+   * @param actual the object to compare to other
+   * @param other the object to compare to actual
+   * @return true if actual and other are equal (null safe equals check), false otherwise.
+   */
+  private boolean areEqual(Object actual, Object other) {
+    return comparisonStrategy.areEqual(other, actual);
   }
 
   /**
@@ -157,7 +158,7 @@ public class Objects {
    */
   public void assertNull(AssertionInfo info, Object actual) {
     if (actual == null) return;
-    throw failures.failure(info, shouldBeEqual(actual, null));
+    throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy));
   }
 
   /**
@@ -208,7 +209,7 @@ public class Objects {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (isActualIn(actual, values)) return;
-    throw failures.failure(info, shouldBeIn(actual, values));
+    throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
   /**
@@ -224,7 +225,7 @@ public class Objects {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (!isActualIn(actual, values)) return;
-    throw failures.failure(info, shouldNotBeIn(actual, values));
+    throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
@@ -234,7 +235,7 @@ public class Objects {
 
   private boolean isActualIn(Object actual, Object[] values) {
     for (Object value : values)
-      if (areEqual(actual, value)) return true;
+      if (areEqual(value, actual)) return true;
     return false;
   }
 
@@ -251,7 +252,7 @@ public class Objects {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (isActualIn(actual, values)) return;
-    throw failures.failure(info, shouldBeIn(actual, values));
+    throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
   /**
@@ -267,7 +268,7 @@ public class Objects {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (!isActualIn(actual, values)) return;
-    throw failures.failure(info, shouldNotBeIn(actual, values));
+    throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
   private void checkIsNotNullAndNotEmpty(Collection<?> values) {
@@ -277,7 +278,7 @@ public class Objects {
 
   private boolean isActualIn(Object actual, Collection<?> values) {
     for (Object value : values)
-      if (areEqual(actual, value)) return true;
+      if (areEqual(value, actual)) return true;
     return false;
   }
 }

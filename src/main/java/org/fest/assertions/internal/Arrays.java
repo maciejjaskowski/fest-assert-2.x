@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.internal;
 
+import static java.lang.reflect.Array.getLength;
+
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.error.ShouldBeSorted.*;
@@ -34,8 +36,6 @@ import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.isArray;
-import static org.fest.util.Collections.duplicatesFrom;
-import static org.fest.util.Objects.areEqual;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -43,6 +43,7 @@ import java.util.*;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.util.ArrayWrapperList;
+import org.fest.util.*;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
@@ -54,11 +55,23 @@ class Arrays {
 
   private static final Arrays INSTANCE = new Arrays();
 
+  /**
+   * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   */
   static Arrays instance() {
     return INSTANCE;
   }
 
-  private Arrays() {}
+  private ComparisonStrategy comparisonStrategy;
+
+  private Arrays() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  public Arrays(ComparisonStrategy comparisonStrategy) {
+    this.comparisonStrategy = comparisonStrategy;
+  }
 
   void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
     if (array == null || isArrayEmpty(array)) return;
@@ -79,7 +92,6 @@ class Arrays {
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object values) {
-    // TODO : FEST-64
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> notFound = new LinkedHashSet<Object>();
@@ -89,11 +101,11 @@ class Arrays {
       if (!arrayContains(array, value)) notFound.add(value);
     }
     if (notFound.isEmpty()) return;
-    throw failures.failure(info, shouldContain(array, values, notFound));
+    throw failures.failure(info, shouldContain(array, values, notFound, comparisonStrategy));
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
-    // TODO : FEST-64
+    // TODO : FEST-64 test
     assertNotNull(info, array);
     assertNotEmpty(info, failures, array);
     checkIndexValueIsValid(index, sizeOf(array) - 1);
@@ -109,7 +121,7 @@ class Arrays {
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
-    // TODO : FEST-64
+    // TODO : FEST-64 test
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     int indexValue = index.value;
@@ -120,24 +132,38 @@ class Arrays {
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object array, Object values) {
-    // TODO : FEST-64
+    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> notExpected = asSet(array);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, shouldContainOnly(array, values, notFound, notExpected));
+    throw failures.failure(info, shouldContainOnly(array, values, notFound, notExpected,comparisonStrategy));
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object values) {
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object o : asSet(values)) {
-      if (actual.contains(o)) actual.remove(o);
+      if (collectionContains(actual, o)) collectionRemoves(actual, o);
       else notFound.add(o);
     }
     return notFound;
   }
 
+  /**
+   * Delegates to {@link ComparisonStrategy#collectionContains(Collection, Object)}
+   */
+  private boolean collectionContains(Collection<?> actual, Object value) {
+    return comparisonStrategy.collectionContains(actual, value);
+  }
+
+  /**
+   * Delegates to {@link ComparisonStrategy#collectionRemoves(Collection, Object)}
+   */
+  private void collectionRemoves(Collection<?> actual, Object value) { 
+    comparisonStrategy.collectionRemoves(actual, value);
+  }
+  
   private Set<Object> asSet(Object array) {
     Set<Object> set = new LinkedHashSet<Object>();
     int size = sizeOf(array);
@@ -149,7 +175,7 @@ class Arrays {
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    // TODO : FEST-64
+    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     boolean firstAlreadyFound = false;
@@ -171,46 +197,48 @@ class Arrays {
     if (!firstAlreadyFound || i < sequenceSize) throw arrayDoesNotContainSequence(info, failures, array, sequence);
   }
 
+  /**
+   * Delegates to {@link ComparisonStrategy#areEqual(Object, Object)}
+   */
+  private boolean areEqual(Object actual, Object other) {
+    return comparisonStrategy.areEqual(actual, other);
+  }
+
   private AssertionError arrayDoesNotContainSequence(AssertionInfo info, Failures failures, Object array,
       Object sequence) {
-    return failures.failure(info, shouldContainSequence(array, sequence));
+    return failures.failure(info, shouldContainSequence(array, sequence, comparisonStrategy));
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
-    // TODO : FEST-64
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> found = new LinkedHashSet<Object>();
-    int valueCount = sizeOf(values);
-    for (int i = 0; i < valueCount; i++) {
+    for (int i = 0; i < sizeOf(values); i++) {
       Object value = Array.get(values, i);
       if (arrayContains(array, value)) found.add(value);
     }
     if (found.isEmpty()) return;
-    throw failures.failure(info, shouldNotContain(array, values, found));
+    throw failures.failure(info, shouldNotContain(array, values, found, comparisonStrategy));
   }
 
+  /**
+   * Delegates to {@link ComparisonStrategy#arrayContains(Object, Object)}
+   */
   private boolean arrayContains(Object array, Object value) {
-    // TODO : FEST-64
-    int size = sizeOf(array);
-    for (int i = 0; i < size; i++) {
-      Object element = Array.get(array, i);
-      if (areEqual(element, value)) return true; // TODO FEST-64
-    }
-    return false;
+    return comparisonStrategy.arrayContains(array, value);
   }
 
   void assertDoesNotHaveDuplicates(AssertionInfo info, Failures failures, Object array) {
-    // TODO : FEST-64
+    // TODO : FEST-64 test
     assertNotNull(info, array);
     ArrayWrapperList wrapped = wrap(array);
-    Collection<?> duplicates = duplicatesFrom(wrapped);
+    Collection<?> duplicates = comparisonStrategy.duplicatesFrom(wrapped);
     if (duplicates.isEmpty()) return;
-    throw failures.failure(info, shouldNotHaveDuplicates(array, duplicates));
+    throw failures.failure(info, shouldNotHaveDuplicates(array, duplicates, comparisonStrategy));
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    // TODO : FEST-64
+    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
@@ -224,11 +252,11 @@ class Arrays {
 
   private AssertionError arrayDoesNotStartWithSequence(AssertionInfo info, Failures failures, Object array,
       Object sequence) {
-    return failures.failure(info, shouldStartWith(array, sequence));
+    return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
   }
 
   void assertEndsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    // TODO : FEST-64
+    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
@@ -254,7 +282,12 @@ class Arrays {
 
   void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
-    // TODO : FEST-64
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      // instead of comparing array elements with their natural comparator, use the one set by client.
+      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+      assertIsSortedAccordingToComparator(info, failures, array, comparator);
+      return;
+    }
     assertThatArrayComponentTypeIsSortable(info, failures, array);
     try {
       // sorted assertion is only relevant if array elements are Comparable
@@ -290,10 +323,10 @@ class Arrays {
       for (int i = 0; i < arrayAsList.size() - 1; i++) {
         // array is sorted in comparator defined order iif element i is less or equal than element i+1
         if (comparator.compare(arrayAsList.get(i), arrayAsList.get(i + 1)) > 0)
-          throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, array));
+          throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, array, comparator));
       }
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldHaveComparableElementsAccordingToGivenComparator(array));
+      throw failures.failure(info, shouldHaveComparableElementsAccordingToGivenComparator(array, comparator));
     }
   }
 
@@ -301,7 +334,7 @@ class Arrays {
   private static <T> List<T> asList(Object array) {
     if (array == null) return null;
     if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
-    int length = Array.getLength(array);
+    int length = getLength(array);
     List<T> list = new ArrayList<T>(length);
     for (int i = 0; i < length; i++) {
       list.add((T) Array.get(array, i));
@@ -327,7 +360,6 @@ class Arrays {
       throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
   }
 
-  
   private void checkIsNotNullAndNotEmpty(Object values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
     if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();
@@ -339,13 +371,13 @@ class Arrays {
 
   private AssertionError arrayDoesNotEndWithSequence(AssertionInfo info, Failures failures, Object array,
       Object sequence) {
-    return failures.failure(info, shouldEndWith(array, sequence));
+    return failures.failure(info, shouldEndWith(array, sequence, comparisonStrategy));
   }
 
   private static void assertNotNull(AssertionInfo info, Object array) {
     Objects.instance().assertNotNull(info, array);
   }
-
+ 
   private int sizeOf(Object array) {
     return Array.getLength(array);
   }

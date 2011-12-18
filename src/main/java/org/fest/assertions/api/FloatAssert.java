@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
 
+  // TODO FEST-64 
   @VisibleForTesting Floats floats = Floats.instance();
 
   protected FloatAssert(Float actual) {

@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integer> implements NumberAssert<Integer> {
 
+  // TODO FEST-64  
   @VisibleForTesting Integers integers = Integers.instance();
 
   protected IntegerAssert(Integer actual) {

@@ -1,15 +1,15 @@
 /*
  * Created on Nov 18, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -19,31 +19,32 @@ import java.util.*;
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
-import org.fest.util.VisibleForTesting;
+import org.fest.assertions.internal.Objects;
+import org.fest.util.*;
+
 
 /**
  * Base class for all assertions.
- * @param <S> the "self" type of this assertion class. Please read
- * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
- * API implementation</a>&quot; for more details.
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
  * @param <A> the type of the "actual" value.
- *
+ * 
  * @author Alex Ruiz
  */
 public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
+  // objects is responisble of comparing actual with other objects (Strategy Design Pattern) 
+  @VisibleForTesting
+  Objects objects = Objects.instance();
+  @VisibleForTesting
+  Conditions conditions = Conditions.instance();
 
-  @VisibleForTesting final WritableAssertionInfo info;
+  @VisibleForTesting
+  final WritableAssertionInfo info;
   // visibility is protected to allow us write custom assertions that need access to actual
-  @VisibleForTesting protected final A actual;
-  /**
-   * Used to compare {@link #actual} with other objects in assertions like {@link #isEqualTo(Object)} or {@link #isIn(Object...)}.<br>  
-   * Visibility is protected as child class may need access the custom comparator when implementing specific assertion check.
-   */
-  protected Comparator<?> customComparator; // TODO FEST-64 also use it for isSorted assertion
-
+  @VisibleForTesting
+  protected final A actual;
   protected final S myself;
 
   protected AbstractAssert(A actual, Class<S> selfType) {
@@ -76,25 +77,12 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
   /** {@inheritDoc} */
   public S isEqualTo(A expected) {
-    if (mustUseCustomComparator()) {
-      objects.assertEqualUsingComparator(info, actual, expected, customComparator);
-    } else {
-      objects.assertEqual(info, actual, expected);
-    }
+    objects.assertEqual(info, actual, expected);
     return myself;
-  }
-
-  /**
-   * Returns true if we must use a custom strategy comparison, false for standard strategy comparison.
-   * @return true if we must use a custom strategy comparison, false for standard strategy comparison.
-   */
-  private boolean mustUseCustomComparator() {
-    return customComparator != null;
   }
 
   /** {@inheritDoc} */
   public S isNotEqualTo(A other) {
-    // TODO : FEST-64
     objects.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -124,14 +112,12 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
   /** {@inheritDoc} */
   public final S isIn(A... values) {
-    // TODO : FEST-64
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
   public final S isNotIn(A... values) {
-    // TODO : FEST-64
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
@@ -172,20 +158,22 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
     return myself;
   }
 
-  @VisibleForTesting final String descriptionText() {
+  @VisibleForTesting
+  final String descriptionText() {
     return info.descriptionText();
   }
-  
 
   /** {@inheritDoc} */
-  public S usingComparator(Comparator<?> customComparator) {
-    this.customComparator = customComparator;
+  public S usingComparator(Comparator<?> customComparator) {  // TODO FEST-64 unit test
+    // using a specific strategy to compare actual with other objects.
+    this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
+
   /** {@inheritDoc} */
-  public S usingDefaultComparator() {
-    this.customComparator = null;
+  public S usingDefaultComparator() {  // TODO FEST-64 unit test
+    // fall back to default strategy to compare actual with other objects.
+    this.objects = Objects.instance();
     return myself;
   }
 }

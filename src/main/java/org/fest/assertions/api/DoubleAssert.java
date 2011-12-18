@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double> implements FloatingPointNumberAssert<Double> {
 
+  // TODO FEST-64 
   @VisibleForTesting Doubles doubles = Doubles.instance();
 
   protected DoubleAssert(Double actual) {

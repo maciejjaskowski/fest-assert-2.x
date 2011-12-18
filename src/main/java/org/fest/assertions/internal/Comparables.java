@@ -22,20 +22,21 @@ import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Reusable assertions for <code>{@link Comparable}</code>s.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class Comparables {
 
   private static final Comparables INSTANCE = new Comparables();
 
   /**
-   * Returns the singleton instance of this class.
-   * @return the singleton instance of this class.
+   * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Comparables instance() {
     return INSTANCE;
@@ -43,7 +44,15 @@ public class Comparables {
 
   @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting Comparables() {}
+  @VisibleForTesting Comparables() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  private ComparisonStrategy comparisonStrategy;
+
+  public Comparables(ComparisonStrategy comparisonStrategy) {
+    this.comparisonStrategy = comparisonStrategy;
+  }  
 
   /**
    * Asserts that two <code>{@link Comparable}</code>s are equal by invoking
@@ -126,8 +135,8 @@ public class Comparables {
     throw failures.failure(info, shouldBeGreater(actual, other));
   }
 
-  private static <T extends Comparable<T>> boolean isGreaterThan(T actual, T other) {
-    return actual.compareTo(other) > 0;
+  private boolean isGreaterThan(Object actual, Object other) {
+    return comparisonStrategy.isGreaterThan(actual, other);
   }
 
   /**
@@ -145,8 +154,8 @@ public class Comparables {
     throw failures.failure(info, shouldBeGreaterOrEqual(actual, other));
   }
 
-  private static <T extends Comparable<T>> boolean isLessThan(T actual, T other) {
-    return actual.compareTo(other) < 0;
+  private boolean isLessThan(Object actual, Object other) {
+    return comparisonStrategy.isLessThan(actual, other);
   }
 
   private static <T> void assertNotNull(AssertionInfo info, T actual) {

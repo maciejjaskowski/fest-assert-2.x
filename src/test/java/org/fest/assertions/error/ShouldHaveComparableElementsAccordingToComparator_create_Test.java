@@ -35,14 +35,14 @@ public class ShouldHaveComparableElementsAccordingToComparator_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldHaveComparableElementsAccordingToGivenComparator(array("b", "c", "a"));
+    factory = shouldHaveComparableElementsAccordingToGivenComparator(array("b", "c", "a"), new CaseInsensitiveStringComparator());
   }
 
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
     assertEquals(
-        "[Test] some elements are not mutually comparable according to given comparator in group:<['b', 'c', 'a']>",
+        "[Test] some elements are not mutually comparable according to 'StringComparator' comparator in group:<['b', 'c', 'a']>",
         message);
   }
 }

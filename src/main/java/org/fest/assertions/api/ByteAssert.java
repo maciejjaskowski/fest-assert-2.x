@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> implements NumberAssert<Byte> {
 
+  // TODO FEST-64 
   @VisibleForTesting Bytes bytes = Bytes.instance();
 
   protected ByteAssert(Byte actual) {

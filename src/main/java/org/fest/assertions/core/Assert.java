@@ -148,7 +148,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
-  S usingComparator(Comparator<? extends Object> customComparator);
+  S usingComparator(Comparator<?> customComparator);
 
   /**
    * Revert to standard comparison for incoming assertion checks.<br>

@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.internal.Booleans;
 import org.fest.util.VisibleForTesting;
 
@@ -79,5 +81,17 @@ public class BooleanAssert extends AbstractAssert<BooleanAssert, Boolean> {
   public BooleanAssert isNotEqualTo(boolean other) {
     booleans.assertNotEqual(info, actual, other);
     return this;
+  }
+
+  @Override
+  public BooleanAssert usingComparator(Comparator<?> customComparator) {
+    throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");
+  }
+  
+  @Override
+  public BooleanAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.booleans = Booleans.instance();
+    return myself;
   }
 }
