@@ -14,9 +14,11 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.Integers;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Assertion methods for integers.
@@ -29,10 +31,11 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integer> implements NumberAssert<Integer> {
 
-  // TODO FEST-64  
+  // TODO FEST-64 test  
   @VisibleForTesting Integers integers = Integers.instance();
 
   protected IntegerAssert(Integer actual) {
@@ -133,5 +136,19 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
   public IntegerAssert isGreaterThanOrEqualTo(int other) {
     integers.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
+  }
+
+  @Override
+  public IntegerAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public IntegerAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.integers = Integers.instance();
+    return myself;
   }
 }

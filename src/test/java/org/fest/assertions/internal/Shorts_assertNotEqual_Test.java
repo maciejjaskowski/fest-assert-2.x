@@ -19,16 +19,19 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Shorts#assertNotEqual(AssertionInfo, Short, short)}</code>.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class Shorts_assertNotEqual_Test {
 
@@ -40,7 +43,7 @@ public class Shorts_assertNotEqual_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     shorts = new Shorts();
-    shorts.failures = failures;
+    shorts.setFailures(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {

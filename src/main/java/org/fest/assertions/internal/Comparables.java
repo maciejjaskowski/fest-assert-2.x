@@ -30,6 +30,7 @@ import org.fest.util.*;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
+// FEST-64 test (shouldXXX messages)
 public class Comparables {
 
   private static final Comparables INSTANCE = new Comparables();
@@ -69,7 +70,7 @@ public class Comparables {
   public <T extends Comparable<T>> void assertEqualByComparison(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
     if (actual.compareTo(expected) == 0) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected));
+    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy));
   }
 
   /**
@@ -101,7 +102,7 @@ public class Comparables {
   public <T extends Comparable<T>> void assertLessThan(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
-    throw failures.failure(info, shouldBeLess(actual, other));
+    throw failures.failure(info, shouldBeLess(actual, other, comparisonStrategy));
   }
 
   /**
@@ -116,7 +117,7 @@ public class Comparables {
   public <T extends Comparable<T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other)) return;
-    throw failures.failure(info, shouldBeLessOrEqual(actual, other));
+    throw failures.failure(info, shouldBeLessOrEqual(actual, other, comparisonStrategy));
   }
 
   /**
@@ -132,7 +133,7 @@ public class Comparables {
   public <T extends Comparable<T>> void assertGreaterThan(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other)) return;
-    throw failures.failure(info, shouldBeGreater(actual, other));
+    throw failures.failure(info, shouldBeGreater(actual, other, comparisonStrategy));
   }
 
   private boolean isGreaterThan(Object actual, Object other) {
@@ -151,7 +152,7 @@ public class Comparables {
   public <T extends Comparable<T>> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other)) return;
-    throw failures.failure(info, shouldBeGreaterOrEqual(actual, other));
+    throw failures.failure(info, shouldBeGreaterOrEqual(actual, other, comparisonStrategy));
   }
 
   private boolean isLessThan(Object actual, Object other) {

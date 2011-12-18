@@ -19,11 +19,13 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Longs#assertGreaterThanOrEqualTo(AssertionInfo, Long, long)}</code>.
@@ -40,7 +42,7 @@ public class Longs_assertGreaterThanOrEqualTo_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     longs = new Longs();
-    longs.failures = failures;
+    longs.setFailures(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {
