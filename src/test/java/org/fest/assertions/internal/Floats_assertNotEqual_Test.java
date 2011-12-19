@@ -40,7 +40,7 @@ public class Floats_assertNotEqual_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     floats = new Floats();
-    floats.failures = failures;
+    floats.setFailures(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {

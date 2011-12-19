@@ -19,11 +19,14 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Tests for <code>{@link Integers#assertGreaterThan(AssertionInfo, Integer, int)}</code>.
@@ -40,7 +43,7 @@ public class Integers_assertGreaterThan_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     integers = new Integers();
-    integers.failures = failures;
+    integers.setFailures(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -57,7 +60,7 @@ public class Integers_assertGreaterThan_Test {
     try {
       integers.assertGreaterThan(info, 6, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(6, 6));
+      verify(failures).failure(info, shouldBeGreater(6, 6, StandardComparisonStrategy.instance()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -42,7 +42,7 @@ public class Floats_assertEqual_float_with_offset_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     floats = new Floats();
-    floats.failures = failures;
+    floats.setFailures(failures);
   }
 
   @Test public void should_throw_error_if_offset_is_null() {

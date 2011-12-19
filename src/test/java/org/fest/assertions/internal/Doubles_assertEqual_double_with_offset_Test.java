@@ -42,7 +42,7 @@ public class Doubles_assertEqual_double_with_offset_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     doubles = new Doubles();
-    doubles.failures = failures;
+    doubles.setFailures(failures);
   }
 
   @Test public void should_throw_error_if_offset_is_null() {

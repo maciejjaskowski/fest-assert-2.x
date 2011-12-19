@@ -40,7 +40,7 @@ public class Shorts_assertGreaterThanOrEqualTo_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     shorts = new Shorts();
-    shorts.failures = failures;
+    shorts.setFailures(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {
