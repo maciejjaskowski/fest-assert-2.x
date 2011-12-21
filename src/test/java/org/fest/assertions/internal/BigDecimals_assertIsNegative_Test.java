@@ -14,34 +14,42 @@
  */
 package org.fest.assertions.internal;
 
-import static java.math.BigDecimal.*;
+import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 
-import org.fest.assertions.core.AssertionInfo;
 import org.junit.*;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link BigDecimals#assertIsNegative(AssertionInfo, BigDecimal)}</code>.
  *
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
 public class BigDecimals_assertIsNegative_Test {
 
-  private Comparables comparables;
-  private BigDecimals BigDecimals;
+  @Rule
+  public ExpectedException thrown = none();
+  private BigDecimals bigDecimals;
 
-  @Before public void setUp() {
-    comparables = mock(Comparables.class);
-    BigDecimals = new BigDecimals();
-    BigDecimals.comparables = comparables;
+  @Before
+  public void setUp() {
+    bigDecimals = new BigDecimals();
   }
 
-  @Test public void should_verify_that_actual_is_negative() {
-    AssertionInfo info = someInfo();
-    BigDecimals.assertIsNegative(info, ONE);
-    verify(comparables).assertLessThan(info, ONE, ZERO);
+  @Test
+  public void should_succeed_since_actual_is_negative() {
+    bigDecimals.assertIsNegative(someInfo(), new BigDecimal("-1.0"));
   }
+
+  @Test
+  public void should_fail_since_actual_is_not_negative() {
+    thrown.expectAssertionError("expected:<1> to be less than:<0>");
+    bigDecimals.assertIsNegative(someInfo(), BigDecimal.ONE);
+  }
+
 }
