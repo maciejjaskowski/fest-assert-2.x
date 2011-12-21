@@ -40,7 +40,7 @@ public class Bytes_assertGreaterThan_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     bytes = new Bytes();
-    bytes.failures = failures;
+    bytes.setFailures(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {

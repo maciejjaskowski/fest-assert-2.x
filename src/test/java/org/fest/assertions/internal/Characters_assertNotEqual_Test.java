@@ -19,11 +19,13 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Characters#assertNotEqual(AssertionInfo, Character, char)}</code>.

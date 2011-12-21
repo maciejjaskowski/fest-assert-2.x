@@ -14,37 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.TestData.someInfo;
-
-import static org.junit.Assert.assertEquals;
-
 import org.junit.*;
 
-import org.fest.assertions.core.AssertionInfo;
-
 /**
- * Tests for <code>{@link Floats#assertIsNaN(AssertionInfo, Float)}</code>.
+ * Tests for <code>{@link Floats#NaN()}</code>.
  *
- * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Floats_assertIsNaN_Test {
+public class Floats_NaN_Test {
 
-  private Floats floats;
-
-  @Before public void setUp() {
-    floats = new Floats();
+  @Test public void check_float_NaN_method() {
+    Assert.assertEquals(Float.NaN, Floats.instance().NaN(), 0d);
   }
-
-  @Test public void should_succeed_since_actual_is_equal_to_NaN() {
-    floats.assertIsNaN(someInfo(), Float.NaN);
-  }
-  
-  @Test public void should_fail_since_actual_is_not_equal_to_NaN() {
-    try {
-      floats.assertIsNaN(someInfo(), 6.0f);
-    } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[NaN]> but was:<[6.0]>");
-    }
- }
 }

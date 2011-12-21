@@ -26,7 +26,7 @@ public abstract class RealNumbers<NUMBER extends Comparable<NUMBER>> extends Num
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
   public void assertIsNaN(AssertionInfo info, NUMBER actual) {
-    comparables.assertEqualByComparison(info, actual, NaN());
+    assertEqualByComparison(info, actual, NaN());
   }
 
   protected abstract NUMBER NaN();
@@ -38,7 +38,7 @@ public abstract class RealNumbers<NUMBER extends Comparable<NUMBER>> extends Num
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
   public void assertIsNotNaN(AssertionInfo info, NUMBER actual) {
-    comparables.assertNotEqualByComparison(info, actual, NaN());
+    assertNotEqualByComparison(info, actual, NaN());
   }
 
   protected abstract boolean isEqualTo(NUMBER actual, NUMBER expected, Offset<?> offset);

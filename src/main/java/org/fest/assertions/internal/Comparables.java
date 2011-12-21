@@ -44,16 +44,54 @@ public class Comparables {
   }
 
   @VisibleForTesting Failures failures = Failures.instance();
+  ComparisonStrategy comparisonStrategy;
 
   @VisibleForTesting Comparables() {
     this(StandardComparisonStrategy.instance());
   }
 
-  private ComparisonStrategy comparisonStrategy;
-
   public Comparables(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }  
+
+  @VisibleForTesting
+  void setFailures(Failures failures) {
+    this.failures = failures;
+  }
+
+  /**
+   * Asserts that two T instances are equal.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param expected the expected value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
+   *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual
+   *           values are not equal.
+   */
+  public <T> void assertEqual(AssertionInfo info, T actual, T expected) {
+    assertNotNull(info, actual);
+    if (areEqual(actual, expected)) return;
+    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy));
+  }
+
+  protected <T> boolean areEqual(T actual, T expected) {
+    return comparisonStrategy.areEqual(actual, expected);
+  }
+
+  /**
+   * Asserts that two T instances are not equal.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to the other one.
+   */
+  public <T> void assertNotEqual(AssertionInfo info, T actual, T other) {
+    assertNotNull(info, actual);
+    if (!areEqual(actual, other)) return;
+    throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
+  }
 
   /**
    * Asserts that two <code>{@link Comparable}</code>s are equal by invoking
@@ -159,7 +197,7 @@ public class Comparables {
     return comparisonStrategy.isLessThan(actual, other);
   }
 
-  private static <T> void assertNotNull(AssertionInfo info, T actual) {
+  protected static <T> void assertNotNull(AssertionInfo info, T actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 }

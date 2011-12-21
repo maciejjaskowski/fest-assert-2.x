@@ -14,32 +14,37 @@
  */
 package org.fest.assertions.internal;
 
-import static java.lang.Double.NaN;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.mockito.Mockito.*;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Doubles#assertIsNaN(AssertionInfo, Double)}</code>.
  *
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
 public class Doubles_assertIsNaN_Test {
 
-  private Comparables comparables;
   private Doubles doubles;
 
   @Before public void setUp() {
-    comparables = mock(Comparables.class);
     doubles = new Doubles();
-    doubles.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_equal_to_NaN() {
-    AssertionInfo info = someInfo();
-    doubles.assertIsNaN(info, 6d);
-    verify(comparables).assertEqualByComparison(info, 6d, NaN);
+  @Test public void should_succeed_since_actual_is_equal_to_NaN() {
+    doubles.assertIsNaN(someInfo(), Double.NaN);
   }
+  
+  @Test public void should_fail_since_actual_is_not_equal_to_NaN() {
+    try {
+      doubles.assertIsNaN(someInfo(), 6d);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "expected:<[NaN]> but was:<[6.0]>");
+    }
+ }
 }
