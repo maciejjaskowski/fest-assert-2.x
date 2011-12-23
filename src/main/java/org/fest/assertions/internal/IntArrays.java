@@ -18,7 +18,7 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Reusable assertions for arrays of {@code int}s.
@@ -26,6 +26,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
+//TODO FEST-64 unit test
 public class IntArrays {
 
   private static final IntArrays INSTANCE = new IntArrays();
@@ -38,13 +39,19 @@ public class IntArrays {
     return INSTANCE;
   }
 
-  private final Arrays arrays = Arrays.instance();
+  private Arrays arrays = Arrays.instance();
 
   @VisibleForTesting
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  IntArrays() {}
+  IntArrays() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  public IntArrays(ComparisonStrategy comparisonStrategy) {
+    this.arrays = new Arrays(comparisonStrategy);
+  }
 
   /**
    * Asserts that the given array is {@code null} or empty.

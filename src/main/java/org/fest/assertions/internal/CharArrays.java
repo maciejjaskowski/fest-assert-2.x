@@ -18,13 +18,15 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Reusable assertions for arrays of {@code char}s.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
+//TODO FEST-64 unit test
 public class CharArrays {
 
   private static final CharArrays INSTANCE = new CharArrays();
@@ -37,13 +39,19 @@ public class CharArrays {
     return INSTANCE;
   }
 
-  private final Arrays arrays = Arrays.instance();
+  private Arrays arrays = Arrays.instance();
 
   @VisibleForTesting
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  CharArrays() {}
+  CharArrays() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  public CharArrays(ComparisonStrategy comparisonStrategy) {
+    this.arrays = new Arrays(comparisonStrategy);
+  }
 
   /**
    * Asserts that the given array is {@code null} or empty.

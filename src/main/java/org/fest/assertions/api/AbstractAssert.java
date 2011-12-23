@@ -31,17 +31,20 @@ import org.fest.util.*;
  * @param <A> the type of the "actual" value.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
-  // objects is responisble of comparing actual with other objects (Strategy Design Pattern) 
+  // objects is responsible of comparing actual with other objects (Strategy Design Pattern) 
   @VisibleForTesting
   Objects objects = Objects.instance();
+  
   @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
   @VisibleForTesting
   final WritableAssertionInfo info;
+  
   // visibility is protected to allow us write custom assertions that need access to actual
   @VisibleForTesting
   protected final A actual;

@@ -18,7 +18,7 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Reusable assertions for arrays of {@code float}s.
@@ -37,11 +37,18 @@ public class FloatArrays {
     return INSTANCE;
   }
 
-  private final Arrays arrays = Arrays.instance();
+  private Arrays arrays = Arrays.instance();
 
   @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting FloatArrays() {}
+  @VisibleForTesting FloatArrays() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  public FloatArrays(ComparisonStrategy comparisonStrategy) {
+    this.arrays = new Arrays(comparisonStrategy);
+  }
+
 
   /**
    * Asserts that the given array is {@code null} or empty.

@@ -29,7 +29,9 @@ import org.fest.util.*;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
+//TODO FEST-64 unit test
 public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[]> implements
     ObjectEnumerableAssert<ObjectArrayAssert>, IndexedObjectEnumerableAssert, ArraySortedAssert<ObjectArrayAssert, Object> {
 

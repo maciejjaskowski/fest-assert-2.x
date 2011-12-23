@@ -190,6 +190,7 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }
+
   /** {@inheritDoc} */
   public BooleanArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
@@ -200,5 +201,11 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
   public BooleanArrayAssert isSortedAccordingTo(Comparator<? extends Boolean> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
+  }
+
+  // TODO FEST-64 unit test
+  @Override
+  public BooleanArrayAssert usingComparator(Comparator<?> customComparator) {
+    throw new UnsupportedOperationException("custom Comparator is not supported for Boolean array comparison");
   }
 }

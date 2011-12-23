@@ -1,15 +1,15 @@
 /*
  * Created on Oct 20, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -27,14 +27,16 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(BufferedImage)}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Ansgar Konermann
+ * @author Joel Costigliola
  */
 public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
 
-  @VisibleForTesting Images images = Images.instance();
+  @VisibleForTesting
+  Images images = Images.instance();
 
   protected ImageAssert(BufferedImage actual) {
     super(actual, ImageAssert.class);
@@ -50,7 +52,8 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual image is not equal to the given one.
    */
-  @Override public ImageAssert isEqualTo(BufferedImage expected) {
+  @Override
+  public ImageAssert isEqualTo(BufferedImage expected) {
     images.assertEqual(info, actual, expected);
     return this;
   }
@@ -59,13 +62,12 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
    * Verifies that the actual image is equal to the given one. Two images are equal if:
    * <ol>
    * <li>they have the same size</li>
-   * <li>the difference between the RGB values of the color at each pixel is less than or equal to the given
-   * offset</li>
+   * <li>the difference between the RGB values of the color at each pixel is less than or equal to the given offset</li>
    * </ol>
    * @param expected the given image to compare the actual image to.
    * @param offset helps decide if the color of two pixels are similar: two pixels that are identical to the human eye
-   * may still have slightly different color values. For example, by using an offset of 1 we can indicate that a blue
-   * value of 60 is similar to a blue value of 61.
+   *          may still have slightly different color values. For example, by using an offset of 1 we can indicate that
+   *          a blue value of 60 is similar to a blue value of 61.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual image is not equal to the given one.
@@ -76,7 +78,8 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
   }
 
   /** {@inheritDoc} */
-  @Override public ImageAssert isNotEqualTo(BufferedImage other) {
+  @Override
+  public ImageAssert isNotEqualTo(BufferedImage other) {
     images.assertNotEqual(info, actual, other);
     return this;
   }
@@ -93,11 +96,12 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
     return this;
   }
 
+  // TODO FEST-64 unit test
   @Override
   public ImageAssert usingComparator(Comparator<?> customComparator) {
     throw new UnsupportedOperationException("custom Comparator is not supported for image comparison");
   }
-  
+
   @Override
   public ImageAssert usingDefaultComparator() {
     super.usingDefaultComparator();
