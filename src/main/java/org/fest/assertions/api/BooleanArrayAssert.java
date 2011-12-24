@@ -16,7 +16,8 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.BooleanArrays;
 import org.fest.util.VisibleForTesting;
@@ -29,6 +30,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boolean[]> implements
     EnumerableAssert<BooleanArrayAssert>, ArraySortedAssert<BooleanArrayAssert, Boolean> {

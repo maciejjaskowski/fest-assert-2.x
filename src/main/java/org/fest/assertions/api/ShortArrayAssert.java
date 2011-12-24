@@ -19,7 +19,8 @@ import java.util.Comparator;
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ShortArrays;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for arrays of {@code short}s.
@@ -29,6 +30,7 @@ import org.fest.util.*;
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> implements EnumerableAssert<ShortArrayAssert> {
 

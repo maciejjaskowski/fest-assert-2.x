@@ -2,10 +2,17 @@ package org.fest.assertions.api;
 
 import static org.fest.util.Dates.ISO_DATE_FORMAT;
 
-import java.text.*;
-import java.util.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
 
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Dates;
+import org.fest.assertions.internal.Failures;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 // TODO test case with string date not following expected format (null or bad format)
@@ -26,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Tomasz Nurkiewicz (thanks for giving assertions idea)
  * @author Joel Costigliola
  */
+// TODO FEST-64 unit test
 public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   @VisibleForTesting
@@ -826,4 +834,17 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     }
   }
 
+  @Override
+  public DateAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public DateAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.dates = Dates.instance();
+    return myself;
+  }
 }

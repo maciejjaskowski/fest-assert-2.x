@@ -16,10 +16,12 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.LongArrays;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for arrays of {@code long}s.
@@ -29,6 +31,7 @@ import org.fest.util.*;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> implements
     EnumerableAssert<LongArrayAssert>, ArraySortedAssert<LongArrayAssert, Long> {

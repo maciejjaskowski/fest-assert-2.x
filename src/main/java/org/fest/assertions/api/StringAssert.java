@@ -15,11 +15,13 @@
 package org.fest.assertions.api;
 
 import java.util.Comparator;
-import java.util.regex.*;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.internal.Strings;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for {@code String}s.
@@ -32,6 +34,7 @@ import org.fest.util.*;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
+// TODO FEST-64 unit test
 public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert> {
 
   @VisibleForTesting Strings strings = Strings.instance();
