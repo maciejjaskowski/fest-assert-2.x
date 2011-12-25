@@ -26,10 +26,13 @@ import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link String}</code>s.
@@ -136,7 +139,7 @@ public class Strings {
   /**
    * Delegates to {@link ComparisonStrategy#stringContains(String, String)}
    */
-  protected boolean stringContains(String actual, String sequence) {
+  private boolean stringContains(String actual, String sequence) {
     return comparisonStrategy.stringContains(actual, sequence);
   }
 

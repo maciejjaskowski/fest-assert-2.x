@@ -19,18 +19,22 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Strings#assertStartsWith(AssertionInfo, String, String)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Strings_assertStartsWith_Test {
+public class Strings_assertStartsWith_Test extends AbstractTest_for_Strings_with_custom_comparison_strategy {
 
   @Rule public ExpectedException thrown = none();
 
@@ -41,6 +45,7 @@ public class Strings_assertStartsWith_Test {
     failures = spy(new Failures());
     strings = new Strings();
     strings.failures = failures;
+    initStringsWithCustomComparisonStrategy(failures);
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_prefix() {
@@ -67,4 +72,25 @@ public class Strings_assertStartsWith_Test {
   @Test public void should_pass_if_actual_starts_with_prefix() {
     strings.assertStartsWith(someInfo(), "Yoda", "Yo");
   }
+  
+  @Test public void should_pass_if_actual_starts_with_prefix_according_to_custom_comparison_strategy() {
+    stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "Y");
+    stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "Yo");
+    stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "Yod");
+    stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "Yoda");
+    stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "yoda");
+    stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "YODA");
+  }
+
+  @Test public void should_fail_if_actual_does_not_start_with_prefix_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, "Yoda", "Luke");
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldStartWith("Yoda", "Luke", comparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
 }
