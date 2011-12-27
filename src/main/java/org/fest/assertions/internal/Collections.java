@@ -28,12 +28,16 @@ import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNul
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.internal.CommonErrors.*;
-import static org.fest.util.Collections.set;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Collection}</code>s.
@@ -150,7 +154,7 @@ public class Collections {
   /**
    * Delegates to {@link ComparisonStrategy#collectionRemoves(Collection, Object)}
    */
-  private void collectionRemoves(Collection<?> actual, Object value) { 
+  private void collectionRemoves(Collection<?> actual, Object value) {
     comparisonStrategy.collectionRemoves(actual, value);
   }
 
@@ -181,6 +185,21 @@ public class Collections {
       else notFound.add(o);
     }
     return notFound;
+  }
+
+  /**
+   * build a Set with that avoid duplicates <b>according to given comparison strategy</b>
+   * @param elements to feed the Set we want to build
+   * @return a Set without duplicates <b>according to given comparison strategy</b>
+   */
+  private <T> Set<T> set(T... elements) {
+    if (elements == null) return null;
+    Set<T> set = new HashSet<T>();
+    for (T e : elements) {
+      // only add is not already there 
+      if (!collectionContains(set, e)) set.add(e);
+    }
+    return set;
   }
 
   /**
