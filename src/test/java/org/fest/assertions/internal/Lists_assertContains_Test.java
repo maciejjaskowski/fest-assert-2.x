@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
+
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.fest.assertions.test.ExpectedException.none;
@@ -22,21 +23,26 @@ import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.test.TestData.*;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
+
 import static org.mockito.Mockito.*;
 
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Lists#assertContains(AssertionInfo, List, Object, Index)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Lists_assertContains_Test {
+public class Lists_assertContains_Test extends AbstractTest_for_Lists_with_custom_comparison_strategy {
 
   private static List<String> actual;
 
@@ -53,6 +59,7 @@ public class Lists_assertContains_Test {
     failures = spy(new Failures());
     lists = new Lists();
     lists.failures = failures;
+    initListsWithCustomComparisonStrategy(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -90,4 +97,23 @@ public class Lists_assertContains_Test {
   @Test public void should_pass_if_actual_contains_value_at_index() {
     lists.assertContains(someInfo(), actual, "Luke", atIndex(1));
   }
+  
+  @Test public void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
+    listsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, "Luke", atIndex(1));
+    listsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, "luke", atIndex(1));
+    listsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, "LUKE", atIndex(1));
+  }
+
+  @Test public void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    Index index = atIndex(1);
+    try {
+      listsWithCaseInsensitiveComparisonStrategy.assertContains(info, actual, "Han", index);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldContainAtIndex(actual, "Han", index, "Luke", comparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
 }

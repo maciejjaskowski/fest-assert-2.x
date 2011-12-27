@@ -16,7 +16,10 @@ package org.fest.assertions.error;
 
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is sorted failed.<br>

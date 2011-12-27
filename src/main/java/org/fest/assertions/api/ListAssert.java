@@ -14,12 +14,14 @@
  */
 package org.fest.assertions.api;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 
 import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.Lists;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for <code>{@link List}</code>s.
@@ -29,6 +31,7 @@ import org.fest.util.*;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ListAssert extends AbstractCollectionAssert<ListAssert, List<?>> implements IndexedObjectEnumerableAssert {
 
