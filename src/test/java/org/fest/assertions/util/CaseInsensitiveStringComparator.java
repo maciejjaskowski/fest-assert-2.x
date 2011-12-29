@@ -1,4 +1,4 @@
-package org.fest.assertions.error;
+package org.fest.assertions.util;
 
 import java.util.Comparator;
 

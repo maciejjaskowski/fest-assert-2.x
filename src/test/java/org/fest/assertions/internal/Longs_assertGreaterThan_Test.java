@@ -22,7 +22,9 @@ import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertion
 
 import static org.mockito.Mockito.*;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
@@ -31,8 +33,9 @@ import org.fest.assertions.test.ExpectedException;
  * Tests for <code>{@link Longs#assertGreaterThan(AssertionInfo, Long, long)}</code>.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Longs_assertGreaterThan_Test {
+public class Longs_assertGreaterThan_Test extends AbstractTest_for_Longs_with_custom_comparison_strategy{
 
   @Rule public ExpectedException thrown = none();
 
@@ -43,6 +46,7 @@ public class Longs_assertGreaterThan_Test {
     failures = spy(new Failures());
     longs = new Longs();
     longs.setFailures(failures);
+    initLongsWithCustomComparisonStrategy(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -75,4 +79,35 @@ public class Longs_assertGreaterThan_Test {
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+  
+  // ------------------------------------------------------------------------------------------------------------------
+  // tests using a custom comparison strategy
+  // ------------------------------------------------------------------------------------------------------------------
+
+  @Test public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    longsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), 8L, 6L);
+  }
+
+  @Test public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      longsWithAbsValueComparisonStrategy.assertGreaterThan(info, -6L, 6L);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeGreater(-6L, 6L, absValueComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      longsWithAbsValueComparisonStrategy.assertGreaterThan(info, 6L, -8L);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeGreater(6L, -8L, absValueComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
 }

@@ -41,7 +41,7 @@ public class ShouldStartWith extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldStartWith}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the value or sequence of values that {@code actual} is expected to start with.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @param absValueComparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldStartWith(Object actual, Object expected) {

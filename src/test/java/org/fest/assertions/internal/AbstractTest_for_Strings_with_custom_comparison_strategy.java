@@ -1,6 +1,6 @@
 package org.fest.assertions.internal;
 
-import org.fest.assertions.error.CaseInsensitiveStringComparator;
+import org.fest.assertions.util.CaseInsensitiveStringComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 
 public class AbstractTest_for_Strings_with_custom_comparison_strategy {

@@ -25,6 +25,7 @@ import org.junit.Test;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
+import org.fest.assertions.util.CaseInsensitiveStringComparator;
 
 /**
  * Tests for <code>{@link ShouldBeSorted#create(Description)}</code>.
