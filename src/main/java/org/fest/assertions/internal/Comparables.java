@@ -22,7 +22,9 @@ import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Comparable}</code>s.
@@ -107,6 +109,7 @@ public class Comparables {
    */
   public <T extends Comparable<T>> void assertEqualByComparison(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
+    // we don't delagate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(expected) == 0) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy));
   }
@@ -123,6 +126,7 @@ public class Comparables {
    */
   public <T extends Comparable<T>> void assertNotEqualByComparison(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
+    // we don't delagate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(other) != 0) return;
     throw failures.failure(info, shouldNotBeEqual(actual, other));
   }
@@ -174,6 +178,9 @@ public class Comparables {
     throw failures.failure(info, shouldBeGreater(actual, other, comparisonStrategy));
   }
 
+  /**
+   * delagates to {@link #comparisonStrategy#isGreaterThan(Object, Object)} 
+   */
   private boolean isGreaterThan(Object actual, Object other) {
     return comparisonStrategy.isGreaterThan(actual, other);
   }

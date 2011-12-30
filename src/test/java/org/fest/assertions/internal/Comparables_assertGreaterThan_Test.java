@@ -15,21 +15,15 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.util.AbsValueComparator;
-import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * Tests for <code>{@link Comparables#assertGreaterThan(AssertionInfo, Comparable, Comparable)}</code>.
@@ -37,25 +31,7 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Comparables_assertGreaterThan_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Comparables comparables;
-  protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
-  protected Bytes comparablesWithAbsValueComparisonStrategy;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    comparables = new Comparables();
-    comparables.failures = failures;
-    absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>());
-    comparablesWithAbsValueComparisonStrategy = new Bytes(absValueComparisonStrategy);
-    comparablesWithAbsValueComparisonStrategy.failures = failures;
-  }
+public class Comparables_assertGreaterThan_Test extends AbstractTest_for_Comparables {
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -98,16 +74,16 @@ public class Comparables_assertGreaterThan_Test {
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    comparablesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), 8, 6);
+    comparablesWithCustomComparisonStrategy.assertGreaterThan(someInfo(), -8, 6);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      comparablesWithAbsValueComparisonStrategy.assertGreaterThan(info, 7, 7);
+      comparablesWithCustomComparisonStrategy.assertGreaterThan(info, 7, -7);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(7, 7, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater(7, -7, customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -117,9 +93,9 @@ public class Comparables_assertGreaterThan_Test {
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      comparablesWithAbsValueComparisonStrategy.assertGreaterThan(info, 6, 8);
+      comparablesWithCustomComparisonStrategy.assertGreaterThan(info, -6, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(6, 8, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater(-6, 8, customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
