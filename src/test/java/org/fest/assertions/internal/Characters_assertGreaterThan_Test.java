@@ -92,16 +92,16 @@ public class Characters_assertGreaterThan_Test extends AbstractTest_for_Characte
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo(), 'b', 'a');
+    charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo(), 'B', 'a');
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo someInfo = someInfo();
     try {
-      charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo, 'b', 'b');
+      charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo, 'B', 'b');
     } catch (AssertionError e) {
-      verify(failures).failure(someInfo, shouldBeGreater('b', 'b', caseInsensitiveComparisonStrategy));
+      verify(failures).failure(someInfo, shouldBeGreater('B', 'b', caseInsensitiveComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -111,9 +111,9 @@ public class Characters_assertGreaterThan_Test extends AbstractTest_for_Characte
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(info, 'a', 'b');
+      charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(info, 'A', 'b');
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater('a', 'b', caseInsensitiveComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater('A', 'b', caseInsensitiveComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -91,15 +91,15 @@ public class Bytes_assertGreaterThan_Test extends AbstractTest_for_Bytes_with_cu
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) 8, (byte) 6);
+    bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) -8, (byte) 6);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     try {
-      bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) 6, (byte) 6);
+      bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) -6, (byte) 6);
     } catch (AssertionError e) {
-      verify(failures).failure(someInfo(), shouldBeGreater((byte) 6, (byte) 6, absValueComparisonStrategy));
+      verify(failures).failure(someInfo(), shouldBeGreater((byte) -6, (byte) 6, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -109,9 +109,9 @@ public class Bytes_assertGreaterThan_Test extends AbstractTest_for_Bytes_with_cu
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bytesWithAbsValueComparisonStrategy.assertGreaterThan(info, (byte) 6, (byte) 8);
+      bytesWithAbsValueComparisonStrategy.assertGreaterThan(info, (byte) -6, (byte) 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater((byte) 6, (byte) 8, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater((byte) -6, (byte) 8, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

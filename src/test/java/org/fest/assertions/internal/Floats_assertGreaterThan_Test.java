@@ -92,16 +92,16 @@ public class Floats_assertGreaterThan_Test extends AbstractTest_for_Floats_with_
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    floatsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), 8f, 6f);
+    floatsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), -8f, 6f);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      floatsWithAbsValueComparisonStrategy.assertGreaterThan(info, 6f, 6f);
+      floatsWithAbsValueComparisonStrategy.assertGreaterThan(info, -6f, 6f);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(6f, 6f, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater(-6f, 6f, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -111,9 +111,9 @@ public class Floats_assertGreaterThan_Test extends AbstractTest_for_Floats_with_
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      floatsWithAbsValueComparisonStrategy.assertGreaterThan(info, 6f, 8f);
+      floatsWithAbsValueComparisonStrategy.assertGreaterThan(info, -6f, 8f);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(6f, 8f, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater(-6f, 8f, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

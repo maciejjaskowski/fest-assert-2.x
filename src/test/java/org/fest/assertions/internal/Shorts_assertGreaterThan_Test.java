@@ -92,16 +92,16 @@ public class Shorts_assertGreaterThan_Test extends AbstractTest_for_Shorts_with_
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    shortsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (short) 8, (short) 6);
+    shortsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (short) -8, (short) 6);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      shortsWithAbsValueComparisonStrategy.assertGreaterThan(info, (short) 6, (short) 6);
+      shortsWithAbsValueComparisonStrategy.assertGreaterThan(info, (short) -6, (short) 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater((short) 6, (short) 6, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater((short) -6, (short) 6, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -111,9 +111,9 @@ public class Shorts_assertGreaterThan_Test extends AbstractTest_for_Shorts_with_
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      shortsWithAbsValueComparisonStrategy.assertGreaterThan(info, (short) 6, (short) 8);
+      shortsWithAbsValueComparisonStrategy.assertGreaterThan(info, (short) -6, (short) 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater((short) 6, (short) 8, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater((short) -6, (short) 8, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
