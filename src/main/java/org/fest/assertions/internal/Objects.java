@@ -28,7 +28,9 @@ import static org.fest.util.ToString.toStringOf;
 import java.util.Collection;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for {@code Object}s.
@@ -53,8 +55,6 @@ public class Objects {
 
   private ComparisonStrategy comparisonStrategy;
   
-  // TODO also use a delegate for AssertionErrorFactory building ? 
-
   @VisibleForTesting
   Objects() {
     this(StandardComparisonStrategy.instance());
