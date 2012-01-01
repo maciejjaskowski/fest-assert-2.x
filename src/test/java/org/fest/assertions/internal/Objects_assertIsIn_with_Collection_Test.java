@@ -86,7 +86,7 @@ public class Objects_assertIsIn_with_Collection_Test extends AbstractTest_for_Ob
 
   @Test
   public void should_pass_if_actual_is_in_Collection_according_to_custom_comparison_strategy() {
-    objectsWithCustomComparisonStrategy.assertIsIn(someInfo(), "Yoda", values);
+    objectsWithCustomComparisonStrategy.assertIsIn(someInfo(), "YODA", values);
   }
 
   @Test

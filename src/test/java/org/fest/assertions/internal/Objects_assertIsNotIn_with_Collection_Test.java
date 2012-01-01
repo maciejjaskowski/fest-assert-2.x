@@ -93,9 +93,9 @@ public class Objects_assertIsNotIn_with_Collection_Test extends AbstractTest_for
   public void should_fail_if_actual_is_in_Collection_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      objectsWithCustomComparisonStrategy.assertIsNotIn(info, "Yoda", values);
+      objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeIn("Yoda", values, customComparisonStrategy));
+      verify(failures).failure(info, shouldNotBeIn("YODA", values, customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

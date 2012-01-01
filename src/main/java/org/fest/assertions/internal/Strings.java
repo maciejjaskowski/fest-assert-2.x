@@ -208,7 +208,7 @@ public class Strings {
   public void assertStartsWith(AssertionInfo info, String actual, String prefix) {
     if (prefix == null) throw new NullPointerException("The given prefix should not be null");
     assertNotNull(info, actual);
-    if (comparisonStrategy.stringStartsWithPrefix(actual, prefix)) return;
+    if (comparisonStrategy.stringStartsWith(actual, prefix)) return;
     throw failures.failure(info, shouldStartWith(actual, prefix, comparisonStrategy));
   }
   
@@ -224,7 +224,7 @@ public class Strings {
   public void assertEndsWith(AssertionInfo info, String actual, String suffix) {
     if (suffix == null) throw new NullPointerException("The given suffix should not be null");
     assertNotNull(info, actual);
-    if (comparisonStrategy.stringEndsWithPrefix(actual, suffix)) return;
+    if (comparisonStrategy.stringEndsWith(actual, suffix)) return;
     throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy)); 
   }
 

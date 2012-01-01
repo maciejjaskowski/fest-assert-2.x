@@ -14,13 +14,17 @@
  */
 package org.fest.assertions.api;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.Assert;
+import org.fest.assertions.core.Condition;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Conditions;
 import org.fest.assertions.internal.Objects;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 
 /**
@@ -35,7 +39,6 @@ import org.fest.util.*;
  */
 public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
-  // objects is responsible of comparing actual with other objects (Strategy Design Pattern) 
   @VisibleForTesting
   Objects objects = Objects.instance();
   
