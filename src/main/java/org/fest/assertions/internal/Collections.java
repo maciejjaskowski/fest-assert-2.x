@@ -172,7 +172,7 @@ public class Collections {
   public void assertContainsOnly(AssertionInfo info, Collection<?> actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
-    Set<Object> notExpected = new LinkedHashSet<Object>(actual);
+    Set<Object> notExpected = set(actual.toArray());
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
     throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
@@ -192,10 +192,10 @@ public class Collections {
    * @param elements to feed the Set we want to build
    * @return a Set without duplicates <b>according to given comparison strategy</b>
    */
-  private <T> Set<T> set(T... elements) {
+  private Set<Object> set(Object... elements) {
     if (elements == null) return null;
-    Set<T> set = new HashSet<T>();
-    for (T e : elements) {
+    Set<Object> set = new HashSet<Object>();
+    for (Object e : elements) {
       // only add is not already there 
       if (!collectionContains(set, e)) set.add(e);
     }

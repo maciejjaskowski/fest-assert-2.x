@@ -73,7 +73,7 @@ public class Comparables_assertNotEqualByComparison_Test extends AbstractTest_fo
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
     comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(someInfo(), null, new Person("Yoda"));
   }
