@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.ShortArrayFactory.array;
+import static org.fest.assertions.test.FloatArrayFactory.array;
 
 import static org.mockito.Mockito.spy;
 
@@ -30,41 +30,41 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
 
 /**
- * Base class for testing <code>{@link ShortArrays}</code>, set up an instance with {@link StandardComparisonStrategy}
+ * Base class for testing <code>{@link FloatArrays}</code>, set up an instance with {@link StandardComparisonStrategy}
  * and another with {@link ComparatorBasedComparisonStrategy}.
  * 
  * @author Joel Costigliola
  */
-public class AbstractTest_for_ShortArrays {
+public class AbstractTest_for_FloatArrays {
 
   @Rule
   public ExpectedException thrown = none();
   
   /**
-   * is initialized with {@link #initActualArray()} with default value = {6, 8, 10}
+   * is initialized with {@link #initActualArray()} with default value = {6.0f, 8.0f, 10.0f}
    */
-  protected short[] actual;
+  protected float[] actual;
   protected Failures failures;
-  protected ShortArrays arrays;
+  protected FloatArrays arrays;
   
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
-  protected ShortArrays arraysWithCustomComparisonStrategy;
+  protected FloatArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Short> absValueComparator = new AbsValueComparator<Short>();
+  private AbsValueComparator<Float> absValueComparator = new AbsValueComparator<Float>();
 
   @Before
   public void setUp() {
     failures = spy(new Failures());
-    arrays = new ShortArrays();
+    arrays = new FloatArrays();
     arrays.failures = failures;
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
-    arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
+    arraysWithCustomComparisonStrategy = new FloatArrays(absValueComparisonStrategy);
     arraysWithCustomComparisonStrategy.failures = failures;
     initActualArray();
   }
 
   protected void initActualArray() {
-    actual = array(6, 8, 10);
+    actual = array(6.0f, 8.0f, 10.0f);
   }
   
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

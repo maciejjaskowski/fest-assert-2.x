@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.ShortArrayFactory.array;
+import static org.fest.assertions.test.LongArrayFactory.array;
 
 import static org.mockito.Mockito.spy;
 
@@ -30,45 +30,45 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
 
 /**
- * Base class for testing <code>{@link ShortArrays}</code>, set up an instance with {@link StandardComparisonStrategy}
+ * Base class for testing <code>{@link LongArrays}</code>, set up an instance with {@link StandardComparisonStrategy}
  * and another with {@link ComparatorBasedComparisonStrategy}.
  * 
  * @author Joel Costigliola
  */
-public class AbstractTest_for_ShortArrays {
+public class AbstractTest_for_LongArrays {
 
   @Rule
   public ExpectedException thrown = none();
-  
+
   /**
    * is initialized with {@link #initActualArray()} with default value = {6, 8, 10}
    */
-  protected short[] actual;
+  protected long[] actual;
   protected Failures failures;
-  protected ShortArrays arrays;
-  
-  protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
-  protected ShortArrays arraysWithCustomComparisonStrategy;
+  protected LongArrays arrays;
 
-  private AbsValueComparator<Short> absValueComparator = new AbsValueComparator<Short>();
+  protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
+  protected LongArrays arraysWithCustomComparisonStrategy;
+
+  private AbsValueComparator<Long> absValueComparator = new AbsValueComparator<Long>();
 
   @Before
   public void setUp() {
     failures = spy(new Failures());
-    arrays = new ShortArrays();
+    arrays = new LongArrays();
     arrays.failures = failures;
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
-    arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
+    arraysWithCustomComparisonStrategy = new LongArrays(absValueComparisonStrategy);
     arraysWithCustomComparisonStrategy.failures = failures;
     initActualArray();
   }
 
   protected void initActualArray() {
-    actual = array(6, 8, 10);
+    actual = array(6L, 8L, 10L);
   }
-  
+
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
     return absValueComparator;
   }
-  
+
 }

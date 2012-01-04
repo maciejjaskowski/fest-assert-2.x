@@ -52,10 +52,6 @@ public class AbstractTest_for_ObjectArrays {
 
   private CaseInsensitiveStringComparator caseInsensitiveStringComparator = new CaseInsensitiveStringComparator();
 
-  public AbstractTest_for_ObjectArrays() {
-    super();
-  }
-
   @Before
   public void setUp() {
     failures = spy(new Failures());

@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.ShortArrayFactory.array;
+import static org.fest.assertions.test.IntArrayFactory.array;
 
 import static org.mockito.Mockito.spy;
 
@@ -30,12 +30,12 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
 
 /**
- * Base class for testing <code>{@link ShortArrays}</code>, set up an instance with {@link StandardComparisonStrategy}
+ * Base class for testing <code>{@link IntArrays}</code>, set up an instance with {@link StandardComparisonStrategy}
  * and another with {@link ComparatorBasedComparisonStrategy}.
  * 
  * @author Joel Costigliola
  */
-public class AbstractTest_for_ShortArrays {
+public class AbstractTest_for_IntArrays {
 
   @Rule
   public ExpectedException thrown = none();
@@ -43,22 +43,22 @@ public class AbstractTest_for_ShortArrays {
   /**
    * is initialized with {@link #initActualArray()} with default value = {6, 8, 10}
    */
-  protected short[] actual;
+  protected int[] actual;
   protected Failures failures;
-  protected ShortArrays arrays;
+  protected IntArrays arrays;
   
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
-  protected ShortArrays arraysWithCustomComparisonStrategy;
+  protected IntArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Short> absValueComparator = new AbsValueComparator<Short>();
+  private AbsValueComparator<Integer> absValueComparator = new AbsValueComparator<Integer>();
 
   @Before
   public void setUp() {
     failures = spy(new Failures());
-    arrays = new ShortArrays();
+    arrays = new IntArrays();
     arrays.failures = failures;
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
-    arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
+    arraysWithCustomComparisonStrategy = new IntArrays(absValueComparisonStrategy);
     arraysWithCustomComparisonStrategy.failures = failures;
     initActualArray();
   }
