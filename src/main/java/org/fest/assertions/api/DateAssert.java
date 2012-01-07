@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.fest.assertions.internal.Dates;
 import org.fest.assertions.internal.Failures;
@@ -78,7 +79,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   public DateAssert isNotEqualTo(String dateAsString) {
     return isNotEqualTo(parse(dateAsString));
   }
-  
+
   /**
    * Same assertion as {@link #isIn(Object...))} but given Dates are represented as String either with ISO date format
    * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
@@ -114,8 +115,8 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link #isNotIn(Object...))} but given Dates are represented as String either with ISO date format
-   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * Same assertion as {@link #isNotIn(Object...))} but given Dates are represented as String either with ISO date
+   * format (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
    * @throws AssertionError if actual is in given Dates represented as String.
@@ -128,10 +129,10 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     }
     return isNotIn(dates);
   }
-  
+
   /**
-   * Same assertion as {@link #isNotIn(Collection))} but given Dates are represented as String either with ISO date format
-   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).<br>
+   * Same assertion as {@link #isNotIn(Collection))} but given Dates are represented as String either with ISO date
+   * format (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).<br>
    * Method signature could not be <code>isNotIn(Collection<String>)</code> because it would be same signature as
    * <code>isNotIn(Collection<Date>)</code> since java collection type are erased at runtime.
    * @param datesAsString the given Dates represented as String in default or custom date format.
@@ -146,7 +147,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     }
     return isNotIn(dates);
   }
-  
+
   /**
    * Verifies that the actual {@code Date} is <b>strictly</b> before the given one.
    * @param other the given Date.
@@ -449,9 +450,12 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     dates.assertIsAfterYear(info, actual, year);
     return this;
   }
-  
+
   /**
    * Verifies that the actual {@code Date} year is equal to the given year.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param year the year to compare actual year to
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -465,6 +469,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   /**
    * Verifies that the actual {@code Date} month is equal to the given month, <b>month value starting at 1</b>
    * (January=1, February=2, ...).
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param month the month to compare actual month to, <b>month value starting at 1</b> (January=1, February=2, ...).
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -477,6 +484,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   /**
    * Verifies that the actual {@code Date} day of month is equal to the given day of month.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param dayOfMonth the day of month to compare actual day of month to
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -490,6 +500,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   /**
    * Verifies that the actual {@code Date} day of week is equal to the given day of week (see
    * {@link Calendar#DAY_OF_WEEK} for valid values).
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param dayOfWeek the day of week to compare actual day of week to, see {@link Calendar#DAY_OF_WEEK} for valid
    *          values
    * @return this assertion object.
@@ -503,6 +516,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   /**
    * Verifies that the actual {@code Date} hour od day is equal to the given hour of day (24-hour clock).
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param hourOfDay the hour of day to compare actual hour of day to (24-hour clock)
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -515,6 +531,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   /**
    * Verifies that the actual {@code Date} minute is equal to the given minute.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param minute the minute to compare actual minute to
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -527,6 +546,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   /**
    * Verifies that the actual {@code Date} second is equal to the given second.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param second the second to compare actual second to
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -539,6 +561,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   /**
    * Verifies that the actual {@code Date} millisecond is equal to the given millisecond.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param millisecond the millisecond to compare actual millisecond to
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -551,6 +576,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   /**
    * Verifies that actual and given {@code Date} are in the same year.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -582,7 +610,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * If you want to compare month only (without year), use :
    * <code>assertThat(myDate).isWithinMonth(monthOf(otherDate))</code><br>
    * See {@link org.fest.util.Dates#monthOf(Date)} to get the month of a given Date.
-   * 
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -614,6 +644,8 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * If you want to compare day of month only (without month and year), you could write :
    * <code>assertThat(myDate).isWithinDayOfMonth(dayOfMonthOf(otherDate))</code><br>
    * see {@link org.fest.util.Dates#dayOfMonthOf(Date)} to get the day of month of a given Date.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}. 
    * 
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
@@ -646,6 +678,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * If you want to compare hour only (without day, month and year), you could write :
    * <code>assertThat(myDate).isWithinHour(hourOfDayOf(otherDate))</code><br>
    * see {@link org.fest.util.Dates#hourOfDay(Date)} to get the hour of a given Date.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -677,6 +712,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * If you want to compare minute only (without hour, day, month and year), you could write :
    * <code>assertThat(myDate).isWithinMinute(minuteOf(otherDate))</code><br>
    * see {@link org.fest.util.Dates#minuteOf(Date)} to get the minute of a given Date.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -708,6 +746,9 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * If you want to compare second only (without minute, hour, day, month and year), you could write :
    * <code>assertThat(myDate).isWithinSecond(secondOf(otherDate))</code><br>
    * see {@link org.fest.util.Dates#secondOf(Date)} to get the second of a given Date.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
+   *  
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -733,11 +774,13 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Verifies that the actual {@code Date} is close to the other date by less than delta, if difference is equals to
-   * delta it is ok.<br>
-   * Note that delta expressed in milliseconds.<br>
-   * Use handy TimeUnit to convert a duration in milliseconds, for example you can express a delta of 5 seconds with
+   * Verifies that the actual {@code Date} is close to the other date by less than delta (expressed in milliseconds), if
+   * difference is equals to delta it's ok.
+   * <p>
+   * One can use handy {@link TimeUnit} to convert a duration in milliseconds, for example you can express a delta of 5 seconds with
    * <code>TimeUnit.SECONDS.toMillis(5)</code>.
+   * <p>
+   * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}. 
    * @param other the date to compare actual to
    * @param deltaInMilliseconds the delta used for date comparison, expressed in milliseconds
    * @return this assertion object.
@@ -798,7 +841,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     if (userCustomDateFormat == null) throw new NullPointerException("The given date format should not be null");
     dateFormat = userCustomDateFormat;
   }
-  
+
   /**
    * Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions.
    * @return this assertion object.
@@ -814,7 +857,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   public static void useIsoDateFormat() {
     dateFormat = ISO_DATE_FORMAT;
   }
-  
+
   /**
    * Utillity method to parse a Date with {@link #dateFormat}, note that it is thread safe.<br>
    * Returns <code>null</code> if dateAsString parameter is <code>null</code>.
@@ -840,7 +883,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
+
   @Override
   public DateAssert usingDefaultComparator() {
     super.usingDefaultComparator();
