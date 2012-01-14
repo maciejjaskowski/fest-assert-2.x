@@ -170,14 +170,14 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   }
 
   /** {@inheritDoc} */
-  public S usingComparator(Comparator<?> customComparator) {  // TODO FEST-64 unit test
+  public S usingComparator(Comparator<?> customComparator) {  
     // using a specific strategy to compare actual with other objects.
     this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
-  public S usingDefaultComparator() {  // TODO FEST-64 unit test
+  public S usingDefaultComparator() {  
     // fall back to default strategy to compare actual with other objects.
     this.objects = Objects.instance();
     return myself;

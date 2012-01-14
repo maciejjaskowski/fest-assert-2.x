@@ -20,9 +20,11 @@ import static org.fest.assertions.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.fest.util.Dates.*;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
@@ -56,6 +58,14 @@ public class Dates {
 
   public Dates(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
+  }
+
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+    }
+    return null;
   }
 
   /**

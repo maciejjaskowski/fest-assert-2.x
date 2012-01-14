@@ -16,10 +16,12 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.CharArrays;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for arrays of {@code char}s.
@@ -31,7 +33,6 @@ import org.fest.util.*;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-//TODO FEST-64 unit test
 public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> implements
     EnumerableAssert<CharArrayAssert>, ArraySortedAssert<CharArrayAssert, Character> {
 

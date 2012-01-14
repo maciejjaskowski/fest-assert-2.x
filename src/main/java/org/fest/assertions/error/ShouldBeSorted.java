@@ -28,7 +28,6 @@ import java.util.List;
  * @author Joel Costigliola
  */
 public class ShouldBeSorted extends BasicErrorMessageFactory {
-  // TODO FEST-64
 
   /**
    * Creates a new <code>{@link ShouldBeSorted}</code>.

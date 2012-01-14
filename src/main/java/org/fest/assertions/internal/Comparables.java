@@ -21,7 +21,10 @@ import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
 import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
@@ -32,7 +35,6 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-// FEST-64 test (shouldXXX messages)
 public class Comparables {
 
   private static final Comparables INSTANCE = new Comparables();
@@ -55,6 +57,14 @@ public class Comparables {
   public Comparables(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }  
+
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+    }
+    return null;
+  }
 
   @VisibleForTesting
   void setFailures(Failures failures) {

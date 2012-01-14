@@ -19,11 +19,16 @@ import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtInde
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link List}</code>s.
@@ -57,6 +62,14 @@ public class Lists {
 
   public Lists(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
+  }
+
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+    }
+    return null;
   }
 
   /**

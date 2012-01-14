@@ -205,7 +205,6 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
     return this;
   }
 
-  // TODO FEST-64 unit test
   @Override
   public BooleanArrayAssert usingComparator(Comparator<?> customComparator) {
     throw new UnsupportedOperationException("custom Comparator is not supported for Boolean array comparison");

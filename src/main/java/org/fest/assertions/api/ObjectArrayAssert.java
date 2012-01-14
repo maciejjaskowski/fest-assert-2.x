@@ -16,10 +16,13 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.IndexedObjectEnumerableAssert;
+import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ObjectArrays;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for arrays of objects.
@@ -31,7 +34,6 @@ import org.fest.util.*;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-//TODO FEST-64 unit test
 public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[]> implements
     ObjectEnumerableAssert<ObjectArrayAssert>, IndexedObjectEnumerableAssert, ArraySortedAssert<ObjectArrayAssert, Object> {
 

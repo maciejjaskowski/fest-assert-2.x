@@ -26,8 +26,10 @@ import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.util.ToString.toStringOf;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
@@ -62,6 +64,14 @@ public class Objects {
 
   public Objects(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
+  }
+  
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+    }
+    return null;
   }
 
   /**

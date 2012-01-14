@@ -22,7 +22,10 @@ import static org.fest.util.ToString.toStringOf;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.Failures;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
@@ -89,7 +92,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * The <code>{@link AssertionError}</code> message is built so that it differentiates {@link #actual} and
    * {@link #expected} description in case their string representation are the same (like 42 float and 42 double).
    * <p>
-   * If JUnit 4 is in the classpath and the description is standard (no comparator was used {@link #actual} and
+   * If JUnit 4 is in the classpath and the description is standard (no comparator was used and {@link #actual} and
    * {@link #expected} string representation were differents), this method will instead create a
    * org.junit.ComparisonFailure that highlights the difference(s) between the expected and actual objects.
    * </p>

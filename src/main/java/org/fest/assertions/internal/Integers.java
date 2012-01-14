@@ -14,7 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Integer}</code>s.
@@ -22,7 +24,6 @@ import org.fest.util.*;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-// TODO FEST-64 test
 public class Integers extends Numbers<Integer> {
 
   private static final Integers INSTANCE = new Integers();

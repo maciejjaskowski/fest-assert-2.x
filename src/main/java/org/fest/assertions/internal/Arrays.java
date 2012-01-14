@@ -51,6 +51,7 @@ import org.fest.assertions.util.ArrayWrapperList;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
@@ -80,6 +81,14 @@ class Arrays {
     this.comparisonStrategy = comparisonStrategy;
   }
 
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+    }
+    return null;
+  }
+
   void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
     if (array == null || isArrayEmpty(array)) return;
     throw failures.failure(info, shouldBeNullOrEmpty(array));
@@ -99,7 +108,6 @@ class Arrays {
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object values) {
-    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> notFound = new LinkedHashSet<Object>();
@@ -113,7 +121,6 @@ class Arrays {
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
-    // TODO : FEST-64 test
     assertNotNull(info, array);
     assertNotEmpty(info, failures, array);
     checkIndexValueIsValid(index, sizeOf(array) - 1);
@@ -130,7 +137,6 @@ class Arrays {
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
-    // TODO : FEST-64 test
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     int indexValue = index.value;
@@ -141,7 +147,6 @@ class Arrays {
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object array, Object values) {
-    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> notExpected = asSetWithoutDuplicatesAccordingToComparisonStrategy(array);
@@ -189,7 +194,6 @@ class Arrays {
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     boolean firstAlreadyFound = false;
@@ -243,7 +247,6 @@ class Arrays {
   }
 
   void assertDoesNotHaveDuplicates(AssertionInfo info, Failures failures, Object array) {
-    // TODO : FEST-64 test
     assertNotNull(info, array);
     ArrayWrapperList wrapped = wrap(array);
     Collection<?> duplicates = comparisonStrategy.duplicatesFrom(wrapped);
@@ -252,7 +255,6 @@ class Arrays {
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
@@ -270,7 +272,6 @@ class Arrays {
   }
 
   void assertEndsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    // TODO : FEST-64 test
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);

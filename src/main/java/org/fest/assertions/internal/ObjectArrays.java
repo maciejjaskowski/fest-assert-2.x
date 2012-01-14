@@ -16,9 +16,12 @@ package org.fest.assertions.internal;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for arrays of objects.
@@ -47,6 +50,11 @@ public class ObjectArrays {
 
   public ObjectArrays(ComparisonStrategy comparisonStrategy) {
     this.arrays = new Arrays(comparisonStrategy);
+  }
+
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    return arrays.getComparator();
   }
 
   @VisibleForTesting

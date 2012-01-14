@@ -34,7 +34,6 @@ import org.fest.util.VisibleForTesting;
  * @author Tomasz Nurkiewicz (thanks for giving assertions idea)
  * @author Joel Costigliola
  */
-// TODO FEST-64 unit test
 public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   @VisibleForTesting

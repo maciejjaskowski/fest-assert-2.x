@@ -26,10 +26,12 @@ import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 
+import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
@@ -64,6 +66,14 @@ public class Strings {
     this.comparisonStrategy = comparisonStrategy;
   }  
   
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+    }
+    return null;
+  }
+
   /**
    * Asserts that the given {@code String} is {@code null} or empty.
    * @param info contains information about the assertion.

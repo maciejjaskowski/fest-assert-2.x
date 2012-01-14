@@ -72,7 +72,6 @@ public class FloatArrays_assertContainsOnly_Test extends AbstractTest_for_FloatA
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    // TODO replace with non-empty array...
     arrays.assertContainsOnly(someInfo(), null, array(6f));
   }
 
@@ -124,7 +123,6 @@ public class FloatArrays_assertContainsOnly_Test extends AbstractTest_for_FloatA
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    // TODO replace with non-empty array...
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, array(6f));
   }
   
