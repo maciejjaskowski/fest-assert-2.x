@@ -34,7 +34,6 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-// TODO FEST-64 unit test
 public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert> {
 
   @VisibleForTesting Strings strings = Strings.instance();

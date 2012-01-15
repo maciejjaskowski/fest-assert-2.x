@@ -107,7 +107,8 @@ public class Comparables {
 
   /**
    * Asserts that two <code>{@link Comparable}</code>s are equal by invoking
-   * <code>{@link Comparable#compareTo(Object)}</code>.
+   * <code>{@link Comparable#compareTo(Object)}</code>.<br>
+   * Note that it does not rely on the custom {@link #comparisonStrategy} if one has been set.
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -119,9 +120,9 @@ public class Comparables {
    */
   public <T extends Comparable<T>> void assertEqualByComparison(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
-    // we don't delagate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
+    // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(expected) == 0) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy));
+    throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
   /**
@@ -189,7 +190,7 @@ public class Comparables {
   }
 
   /**
-   * delagates to {@link #comparisonStrategy#isGreaterThan(Object, Object)} 
+   * delegates to {@link #comparisonStrategy#isGreaterThan(Object, Object)} 
    */
   private boolean isGreaterThan(Object actual, Object other) {
     return comparisonStrategy.isGreaterThan(actual, other);

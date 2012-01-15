@@ -6,7 +6,7 @@
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * Ungreater required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  * 
@@ -14,13 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Floats#assertIsPositive(AssertionInfo, Float)}</code>.
@@ -28,16 +26,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertIsPositive_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Floats floats;
-
-  @Before
-  public void setUp() {
-    floats = new Floats();
-  }
+public class Floats_assertIsPositive_Test extends AbstractTest_for_Floats{
 
   @Test
   public void should_succeed_since_actual_is_positive() {
@@ -50,4 +39,14 @@ public class Floats_assertIsPositive_Test {
     floats.assertIsPositive(someInfo(), -6.0f);
   }
 
+  @Test
+  public void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy() {
+    floatsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), (float) 6);
+  }
+  
+  @Test
+  public void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy2() {
+    floatsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), -6.0f);
+  }
+  
 }

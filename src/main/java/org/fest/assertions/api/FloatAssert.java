@@ -19,7 +19,8 @@ import java.util.Comparator;
 import org.fest.assertions.core.FloatingPointNumberAssert;
 import org.fest.assertions.data.Offset;
 import org.fest.assertions.internal.Floats;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for floats.
@@ -34,7 +35,6 @@ import org.fest.util.*;
  */
 public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
 
-  // TODO FEST-64 
   @VisibleForTesting Floats floats = Floats.instance();
 
   protected FloatAssert(Float actual) {

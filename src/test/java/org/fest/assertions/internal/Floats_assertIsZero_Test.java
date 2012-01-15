@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -28,14 +28,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertIsZero_Test {
-
-  private Floats floats;
-
-  @Before
-  public void setUp() {
-    floats = new Floats();
-  }
+public class Floats_assertIsZero_Test extends AbstractTest_for_Floats{
 
   @Test
   public void should_succeed_since_actual_is_zero() {
@@ -51,4 +44,18 @@ public class Floats_assertIsZero_Test {
     }
   }
 
+  @Test
+  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+    floatsWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 0.0f);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    try {
+      floatsWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 2.0f);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "expected:<[0].0> but was:<[2].0>");
+    }
+  }
+  
 }

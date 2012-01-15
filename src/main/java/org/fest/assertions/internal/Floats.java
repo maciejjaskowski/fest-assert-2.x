@@ -21,7 +21,10 @@ import static org.fest.assertions.internal.CommonValidations.checkOffsetIsNotNul
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Offset;
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.Objects;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Float}</code>s.
@@ -66,7 +69,9 @@ public class Floats extends RealNumbers<Float> {
   }
 
   /**
-   * Verifies that two floats are equal within a positive offset.
+   * Verifies that two floats are equal within a positive offset.<br>
+   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
+   * comparison strategy.
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
@@ -78,9 +83,10 @@ public class Floats extends RealNumbers<Float> {
   // while RealNumber parameter must inherits from Comparable (sadly Number is not Comparable)
   public void assertEqual(AssertionInfo info, Float actual, Float expected, Offset<Float> offset) {
     checkOffsetIsNotNull(offset);
-    if (areEqual(actual, expected)) return;
+    // doesn't use areEqual method relying on comparisonStrategy attribute
+    if (Objects.areEqual(actual, expected)) return;
     if (actual != null && expected != null && isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset, comparisonStrategy));
+    throw failures.failure(info, shouldBeEqual(actual, expected, offset));
   }
 
 }

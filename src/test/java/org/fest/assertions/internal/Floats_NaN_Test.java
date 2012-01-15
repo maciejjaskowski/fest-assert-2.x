@@ -14,7 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Floats#NaN()}</code>.
@@ -24,6 +26,6 @@ import org.junit.*;
 public class Floats_NaN_Test {
 
   @Test public void check_float_NaN_method() {
-    Assert.assertEquals(Float.NaN, Floats.instance().NaN(), 0d);
+    assertEquals(Float.NaN, Floats.instance().NaN(), 0d);
   }
 }

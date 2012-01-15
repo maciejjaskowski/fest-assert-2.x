@@ -21,7 +21,9 @@ import static org.fest.assertions.internal.CommonValidations.checkOffsetIsNotNul
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Offset;
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Double}</code>s.
@@ -78,7 +80,6 @@ public class Doubles extends RealNumbers<Double> {
     if (areEqual(actual, expected) || isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, offset, comparisonStrategy));
   }
-
 
   @Override
   protected boolean isEqualTo(Double actual, Double expected, Offset<?> offset) {

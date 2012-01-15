@@ -14,13 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Floats#assertIsNegative(AssertionInfo, Float)}</code>.
@@ -28,16 +26,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertIsNegative_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Floats floats;
-
-  @Before
-  public void setUp() {
-    floats = new Floats();
-  }
+public class Floats_assertIsNegative_Test extends AbstractTest_for_Floats{
 
   @Test
   public void should_succeed_since_actual_is_negative() {
@@ -50,4 +39,16 @@ public class Floats_assertIsNegative_Test {
     floats.assertIsNegative(someInfo(), 6.0f);
   }
 
+  @Test
+  public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
+    thrown.expectAssertionError("expected:<-6.0> to be less than:<0.0> according to 'AbsValueComparator' comparator");
+    floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (float) -6);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
+    thrown.expectAssertionError("expected:<6.0> to be less than:<0.0>");
+    floats.assertIsNegative(someInfo(), 6.0f);
+  }
+  
 }

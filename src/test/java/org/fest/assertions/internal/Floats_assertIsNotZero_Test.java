@@ -14,15 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Floats#assertIsNegative(AssertionInfo, Float)}</code>.
@@ -30,16 +28,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertIsNotZero_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Floats floats;
-
-  @Before
-  public void setUp() {
-    floats = new Floats();
-  }
+public class Floats_assertIsNotZero_Test extends AbstractTest_for_Floats{
 
   @Test
   public void should_succeed_since_actual_is_not_zero() {
@@ -55,4 +44,18 @@ public class Floats_assertIsNotZero_Test {
     }
   }
 
+  @Test
+  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+    floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 2.0f);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    try {
+      floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0f);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "<0.0> should not be equal to:<0.0>");
+    }
+  }
+  
 }

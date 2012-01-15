@@ -35,7 +35,8 @@ public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Compara
   protected abstract NUMBER zero();
 
   /**
-   * Asserts that the actual value is equal to zero.
+   * Asserts that the actual value is equal to zero.<br>
+   * It does not rely on the custom comparisonStrategy (if one is set).
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
@@ -46,7 +47,8 @@ public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Compara
   }
 
   /**
-   * Asserts that the actual value is not equal to zero.
+   * Asserts that the actual value is not equal to zero.<br>
+   * It does not rely on the custom comparisonStrategy (if one is set).
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
