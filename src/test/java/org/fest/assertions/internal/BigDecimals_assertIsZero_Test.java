@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -30,15 +30,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class BigDecimals_assertIsZero_Test {
-
-  private BigDecimals bigDecimals;
-
-  @Before
-  public void setUp() {
-    bigDecimals = new BigDecimals();
-  }
-
+public class BigDecimals_assertIsZero_Test extends AbstractTest_for_BigDecimals{
 
   @Test
   public void should_succeed_since_actual_is_zero() {
@@ -54,4 +46,18 @@ public class BigDecimals_assertIsZero_Test {
     }
   }
 
+  @Test
+  public void should_succeed_since_actual_is_zero_according_to_custom_comparison_strategy() {
+    bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ZERO);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_not_zero_according_to_custom_comparison_strategy() {
+    try {
+      bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "expected:<[0]> but was:<[1]>");
+    }
+  }
+  
 }

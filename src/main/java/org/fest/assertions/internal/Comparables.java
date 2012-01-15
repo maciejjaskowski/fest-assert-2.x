@@ -127,7 +127,8 @@ public class Comparables {
 
   /**
    * Asserts that two <code>{@link Comparable}</code>s are not equal by invoking
-   * <code>{@link Comparable#compareTo(Object)}</code>.
+   * <code>{@link Comparable#compareTo(Object)}</code>.<br>
+   * Note that it does not rely on the custom {@link #comparisonStrategy} if one has been set.
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.

@@ -14,15 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
 import java.math.BigDecimal;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link BigDecimals#assertIsPositive(AssertionInfo, BigDecimal)}</code>.
@@ -30,16 +28,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class BigDecimals_assertIsPositive_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private BigDecimals bigDecimals;
-
-  @Before
-  public void setUp() {
-    bigDecimals = new BigDecimals();
-  }
+public class BigDecimals_assertIsPositive_Test extends AbstractTest_for_BigDecimals{
 
   @Test
   public void should_succeed_since_actual_is_positive() {
@@ -52,4 +41,15 @@ public class BigDecimals_assertIsPositive_Test {
     bigDecimals.assertIsPositive(someInfo(), BigDecimal.ZERO);
   }
 
+  @Test
+  public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
+    bigDecimalsWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigDecimal.ONE);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
+    thrown.expectAssertionError("expected:<0> to be greater than:<0>");
+    bigDecimalsWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigDecimal.ZERO);
+  }
+  
 }
