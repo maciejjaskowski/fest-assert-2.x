@@ -85,7 +85,7 @@ public class Floats extends RealNumbers<Float> {
     checkOffsetIsNotNull(offset);
     // doesn't use areEqual method relying on comparisonStrategy attribute
     if (Objects.areEqual(actual, expected)) return;
-    if (actual != null && expected != null && isEqualTo(actual, expected, offset)) return;
+    if (expected != null && isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, offset));
   }
 

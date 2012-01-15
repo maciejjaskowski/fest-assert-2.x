@@ -14,13 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Doubles#assertIsPositive(AssertionInfo, Double)}</code>.
@@ -28,16 +26,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Doubles_assertIsPositive_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Doubles doubles;
-
-  @Before
-  public void setUp() {
-    doubles = new Doubles();
-  }
+public class Doubles_assertIsPositive_Test extends AbstractTest_for_Doubles {
 
   @Test
   public void should_succeed_since_actual_is_positive() {
@@ -50,4 +39,14 @@ public class Doubles_assertIsPositive_Test {
     doubles.assertIsPositive(someInfo(), -6.0d);
   }
 
+  @Test
+  public void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy() {
+    doublesWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), 6.0d);
+  }
+  
+  @Test
+  public void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy2() {
+    doublesWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), -6.0d);
+  }
+  
 }

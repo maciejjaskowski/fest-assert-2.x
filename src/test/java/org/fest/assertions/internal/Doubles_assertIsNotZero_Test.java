@@ -14,15 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Doubles#assertIsNegative(AssertionInfo, Double)}</code>.
@@ -30,16 +28,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Doubles_assertIsNotZero_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Doubles doubles;
-
-  @Before
-  public void setUp() {
-    doubles = new Doubles();
-  }
+public class Doubles_assertIsNotZero_Test extends AbstractTest_for_Doubles{
 
   @Test
   public void should_succeed_since_actual_is_not_zero() {
@@ -55,4 +44,18 @@ public class Doubles_assertIsNotZero_Test {
     }
   }
 
+  @Test
+  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+    doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 2.0d);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    try {
+      doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0d);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "<0.0> should not be equal to:<0.0>");
+    }
+  }
+  
 }

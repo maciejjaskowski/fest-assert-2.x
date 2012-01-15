@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -28,14 +28,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Doubles_assertIsNotNaN_Test {
-
-  private Doubles doubles;
-
-  @Before
-  public void setUp() {
-    doubles = new Doubles();
-  }
+public class Doubles_assertIsNotNaN_Test extends AbstractTest_for_Doubles {
 
   @Test
   public void should_succeed_since_actual_is_not_equal_to_NaN() {
@@ -46,6 +39,20 @@ public class Doubles_assertIsNotNaN_Test {
   public void should_fail_since_actual_is_not_equal_to_NaN() {
     try {
       doubles.assertIsNotNaN(someInfo(), 6d);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "<6.0> should not be equal to:<NaN>");
+    }
+  }
+
+  @Test
+  public void should_succeed_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
+    doublesWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), 6d);
+  }
+
+  @Test
+  public void should_fail_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
+    try {
+      doublesWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), 6d);
     } catch (AssertionError e) {
       assertEquals(e.getMessage(), "<6.0> should not be equal to:<NaN>");
     }

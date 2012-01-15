@@ -48,7 +48,7 @@ public class Floats_assertIsNegative_Test extends AbstractTest_for_Floats{
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
     thrown.expectAssertionError("expected:<6.0> to be less than:<0.0>");
-    floats.assertIsNegative(someInfo(), 6.0f);
+    floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0f);
   }
   
 }

@@ -15,19 +15,15 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Doubles#assertGreaterThan(AssertionInfo, Double, double)}</code>.
@@ -35,21 +31,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Doubles_assertGreaterThan_Test extends AbstractTest_for_Doubles_with_custom_comparison_strategy {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Doubles doubles;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    doubles = new Doubles();
-    doubles.setFailures(failures);
-    initDoublesWithCustomComparisonStrategy(failures);
-  }
+public class Doubles_assertGreaterThan_Test extends AbstractTest_for_Doubles {
 
   @Test
   public void should_fail_if_actual_is_null() {

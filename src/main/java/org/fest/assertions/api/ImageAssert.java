@@ -96,7 +96,6 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
     return this;
   }
 
-  // TODO FEST-64 unit test
   @Override
   public ImageAssert usingComparator(Comparator<?> customComparator) {
     throw new UnsupportedOperationException("custom Comparator is not supported for image comparison");

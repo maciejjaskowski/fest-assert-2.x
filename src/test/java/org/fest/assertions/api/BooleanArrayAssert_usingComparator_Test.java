@@ -50,7 +50,7 @@ public class BooleanArrayAssert_usingComparator_Test {
   @Test
   public void using_custom_comparator_test() {
     thrown.expect(UnsupportedOperationException.class);
-    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
+    // in that, we don't care of the comparator, the point to check is that we can't use a comparator
     assertions.usingComparator(CaseInsensitiveStringComparator.instance);
   }
   
