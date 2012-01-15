@@ -82,6 +82,7 @@ public class Floats extends RealNumbers<Float> {
   // can't be defined in RealNumbers because Offset parameter must inherits from Number
   // while RealNumber parameter must inherits from Comparable (sadly Number is not Comparable)
   public void assertEqual(AssertionInfo info, Float actual, Float expected, Offset<Float> offset) {
+    assertNotNull(info, actual);
     checkOffsetIsNotNull(offset);
     // doesn't use areEqual method relying on comparisonStrategy attribute
     if (Objects.areEqual(actual, expected)) return;

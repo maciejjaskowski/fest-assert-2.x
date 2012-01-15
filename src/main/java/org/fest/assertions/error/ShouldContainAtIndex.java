@@ -26,7 +26,6 @@ import org.fest.util.StandardComparisonStrategy;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-// TODO FEST-64 test ShouldContainAtIndex with custom comparison strategy 
 public class ShouldContainAtIndex extends BasicErrorMessageFactory {
 
   /**

@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code String} contains another
@@ -23,7 +24,6 @@ import org.fest.util.*;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-//TODO FEST-64 test
 public class ShouldContainString extends BasicErrorMessageFactory {
 
   /**
@@ -33,7 +33,7 @@ public class ShouldContainString extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContain(String actual, String sequence) {
-    return new ShouldContainString("expecting:<%s> to contain:<%s>", actual, sequence,
+    return new ShouldContainString("expecting:<%s> to contain:<%s>%s", actual, sequence,
         StandardComparisonStrategy.instance());
   }
 
@@ -45,7 +45,7 @@ public class ShouldContainString extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContain(String actual, String sequence, ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainString("expecting:<%s> to contain:<%s>", actual, sequence, comparisonStrategy);
+    return new ShouldContainString("expecting:<%s> to contain:<%s>%s", actual, sequence, comparisonStrategy);
   }
 
   /**

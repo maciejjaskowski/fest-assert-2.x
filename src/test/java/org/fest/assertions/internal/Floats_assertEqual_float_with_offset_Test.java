@@ -17,6 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -66,15 +67,8 @@ public class Floats_assertEqual_float_with_offset_Test extends AbstractTest_for_
 
   @Test
   public void should_fail_if_first_float_is_null_but_not_the_second() {
-    AssertionInfo info = someInfo();
-    Offset<Float> offset = offset(1f);
-    try {
-      floats.assertEqual(info, null, 8f, offset);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(null, 8f, offset));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(actualIsNull());
+    floats.assertEqual(someInfo(), null, 8f, offset(1f));
   }
 
   @Test
@@ -121,15 +115,8 @@ public class Floats_assertEqual_float_with_offset_Test extends AbstractTest_for_
 
   @Test
   public void should_fail_if_first_float_is_null_but_not_the_second_whatever_custom_comparison_strategy_is() {
-    AssertionInfo info = someInfo();
-    Offset<Float> offset = offset(1f);
-    try {
-      floatsWithAbsValueComparisonStrategy.assertEqual(info, null, 8f, offset);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(null, 8f, offset));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    thrown.expectAssertionError(actualIsNull());
+    floatsWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8f, offset(1f));
   }
 
   @Test

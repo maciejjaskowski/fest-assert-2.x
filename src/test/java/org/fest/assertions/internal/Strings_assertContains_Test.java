@@ -58,7 +58,7 @@ public class Strings_assertContains_Test extends AbstractTest_for_Strings_with_c
     try {
       strings.assertContains(info, "Yoda", "Luke");
     } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, "Yoda", "Luke");
+      verify(failures).failure(info, shouldContain("Yoda", "Luke"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -70,14 +70,10 @@ public class Strings_assertContains_Test extends AbstractTest_for_Strings_with_c
     try {
       strings.assertContains(info, "Yoda", "yo");
     } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, "Yoda", "yo");
+      verify(failures).failure(info, shouldContain("Yoda", "yo"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, String actual, String sequence) {
-    verify(failures).failure(info, shouldContain(actual, sequence));
   }
 
   @Test

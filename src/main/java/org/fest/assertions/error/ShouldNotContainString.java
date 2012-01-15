@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code String} does not contain another
@@ -23,7 +24,6 @@ import org.fest.util.*;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-//TODO FEST-64 test
 public class ShouldNotContainString extends BasicErrorMessageFactory {
 
   /**
