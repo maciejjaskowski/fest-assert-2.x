@@ -14,13 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Shorts#assertIsPositive(AssertionInfo, Short)}</code>.
@@ -28,16 +26,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Shorts_assertIsPositive_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Shorts shorts;
-
-  @Before
-  public void setUp() {
-    shorts = new Shorts();
-  }
+public class Shorts_assertIsPositive_Test extends AbstractTest_for_Shorts {
 
   @Test
   public void should_succeed_since_actual_is_positive() {
@@ -50,4 +39,14 @@ public class Shorts_assertIsPositive_Test {
     shorts.assertIsPositive(someInfo(), (short) -6);
   }
 
+  @Test
+  public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
+    shortsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), (short) -1);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
+    thrown.expectAssertionError("expected:<0> to be greater than:<0>");
+    shortsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), (short) 0);
+  }
 }
