@@ -57,7 +57,7 @@ public class Integers_assertLessThanOrEqualTo_Test extends AbstractTest_for_Inte
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
   
-  @Test public void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
+  @Test public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
     integersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, 8);
   }

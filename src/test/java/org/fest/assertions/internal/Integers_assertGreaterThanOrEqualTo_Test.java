@@ -62,7 +62,7 @@ public class Integers_assertGreaterThanOrEqualTo_Test extends AbstractTest_for_I
   }
   
   @Test
-  public void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
     integersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 8);
   }

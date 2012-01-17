@@ -14,13 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Longs#assertIsNegative(AssertionInfo, Long)}</code>.
@@ -28,16 +26,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertIsNegative_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Longs longs;
-
-  @Before
-  public void setUp() {
-    longs = new Longs();
-  }
+public class Longs_assertIsNegative_Test extends AbstractTest_for_Longs {
 
   @Test
   public void should_succeed_since_actual_is_negative() {
@@ -50,4 +39,16 @@ public class Longs_assertIsNegative_Test {
     longs.assertIsNegative(someInfo(), 6l);
   }
 
+  @Test
+  public void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
+    thrown.expectAssertionError("expected:<-1> to be less than:<0> according to 'AbsValueComparator' comparator");
+    longsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1L);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
+    thrown.expectAssertionError("expected:<1> to be less than:<0>");
+    longsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 1L);
+  }
+  
 }

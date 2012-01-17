@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -28,14 +28,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertIsZero_Test {
-
-  private Longs longs;
-
-  @Before
-  public void setUp() {
-    longs = new Longs();
-  }
+public class Longs_assertIsZero_Test extends AbstractTest_for_Longs{
 
   @Test
   public void should_succeed_since_actual_is_zero() {
@@ -51,4 +44,18 @@ public class Longs_assertIsZero_Test {
     }
   }
 
+  @Test
+  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+    longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 1L);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    try {
+      longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+    }
+  }
+  
 }

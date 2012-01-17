@@ -14,13 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Longs#assertIsNegative(AssertionInfo, Long)}</code>.
@@ -28,16 +28,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertIsNotZero_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Longs longs;
-
-  @Before
-  public void setUp() {
-    longs = new Longs();
-  }
+public class Longs_assertIsNotZero_Test extends AbstractTest_for_Longs{
 
   @Test
   public void should_succeed_since_actual_is_not_zero() {
@@ -50,4 +41,18 @@ public class Longs_assertIsNotZero_Test {
     longs.assertIsNotZero(someInfo(), 0l);
   }
 
+  @Test
+  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 1L);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+    try {
+      longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+    }
+  }
+  
 }

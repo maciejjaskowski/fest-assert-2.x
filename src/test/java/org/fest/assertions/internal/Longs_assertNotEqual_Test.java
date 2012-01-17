@@ -15,37 +15,23 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Longs#assertNotEqual(AssertionInfo, Long, long)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Longs_assertNotEqual_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Longs longs;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    longs = new Longs();
-    longs.setFailures(failures);
-  }
+public class Longs_assertNotEqual_Test extends AbstractTest_for_Longs{
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -65,6 +51,29 @@ public class Longs_assertNotEqual_Test {
       longs.assertNotEqual(info, 6L, 6L);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual(6L, 6L));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    longsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8L);
+  }
+  
+  @Test
+  public void should_pass_if_longs_are_not_equal_according_to_custom_comparison_strategy() {
+    longsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), 8L, 6L);
+  }
+  
+  @Test
+  public void should_fail_if_longs_are_equal_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      longsWithAbsValueComparisonStrategy.assertNotEqual(info, -6L, 6L);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotBeEqual(-6L, 6L, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
