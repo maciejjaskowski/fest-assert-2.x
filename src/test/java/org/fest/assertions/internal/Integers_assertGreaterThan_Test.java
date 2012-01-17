@@ -15,19 +15,15 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 import org.fest.util.StandardComparisonStrategy;
 
 /**
@@ -36,22 +32,8 @@ import org.fest.util.StandardComparisonStrategy;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Integers_assertGreaterThan_Test extends AbstractTest_for_Integers_with_custom_comparison_strategy {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Integers integers;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    integers = new Integers();
-    integers.setFailures(failures);
-    initIntegersWithCustomComparisonStrategy(failures);
-  }
-
+public class Integers_assertGreaterThan_Test extends AbstractTest_for_Integers {
+ 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());

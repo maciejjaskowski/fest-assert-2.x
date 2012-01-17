@@ -14,13 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Integers#assertIsPositive(AssertionInfo, Integer)}</code>.
@@ -28,16 +26,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Integers_assertIsPositive_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-  private Integers integers;
-
-  @Before
-  public void setUp() {
-    integers = new Integers();
-  }
+public class Integers_assertIsPositive_Test extends AbstractTest_for_Integers{
 
   @Test
   public void should_succeed_since_actual_is_positive() {
@@ -50,4 +39,15 @@ public class Integers_assertIsPositive_Test {
     integers.assertIsPositive(someInfo(), -6);
   }
 
+  @Test
+  public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
+    integersWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), -1);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
+    thrown.expectAssertionError("expected:<0> to be greater than:<0>");
+    integersWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), 0);
+  }
+  
 }
