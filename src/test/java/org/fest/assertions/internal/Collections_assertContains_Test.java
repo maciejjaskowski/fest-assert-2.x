@@ -16,7 +16,6 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -24,17 +23,13 @@ import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertion
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
-import java.util.List;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Collections#assertContains(AssertionInfo, Collection, Object[])}</code>.
@@ -42,23 +37,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Collections_assertContains_Test extends AbstractTest_for_Collections_with_custom_comparison_strategy {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private List<String> actual;
-  private Failures failures;
-  private Collections collections;
-
-  @Before
-  public void setUp() {
-    actual = list("Luke", "Yoda", "Leia");
-    failures = spy(new Failures());
-    collections = new Collections();
-    collections.failures = failures;
-    initCollectionsWithCustomComparisonStrategy(failures);
-  }
+public class Collections_assertContains_Test extends AbstractTest_for_Collections {
 
   @Test
   public void should_pass_if_actual_contains_given_values() {

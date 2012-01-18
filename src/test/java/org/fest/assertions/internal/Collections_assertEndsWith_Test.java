@@ -16,7 +16,6 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -24,17 +23,13 @@ import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertion
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Collections#assertEndsWith(AssertionInfo, Collection, Object[])}</code>.
@@ -42,28 +37,9 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Collections_assertEndsWith_Test extends AbstractTest_for_Collections_with_custom_comparison_strategy {
+public class Collections_assertEndsWith_Test extends AbstractTest_for_Collections {
 
-  private static Collection<String> actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Collections collections;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = list("Yoda", "Luke", "Leia", "Obi-Wan");
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    collections = new Collections();
-    collections.failures = failures;
-    initCollectionsWithCustomComparisonStrategy(failures);
-  }
+  private static Collection<String> actual = list("Yoda", "Luke", "Leia", "Obi-Wan");
 
   @Test
   public void should_throw_error_if_sequence_is_null() {

@@ -17,23 +17,19 @@ package org.fest.assertions.internal;
 import static java.util.Collections.emptyList;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.*;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Collections#assertDoesNotHaveDuplicates(AssertionInfo, Collection)}</code>.
@@ -41,24 +37,9 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Collections_assertDoesNotHaveDuplicates_Test extends
-    AbstractTest_for_Collections_with_custom_comparison_strategy {
+public class Collections_assertDoesNotHaveDuplicates_Test extends AbstractTest_for_Collections {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private List<String> actual;
-  private Failures failures;
-  private Collections collections;
-
-  @Before
-  public void setUp() {
-    actual = list("Luke", "Yoda", "Leia");
-    failures = spy(new Failures());
-    collections = new Collections();
-    collections.failures = failures;
-    initCollectionsWithCustomComparisonStrategy(failures);
-  }
+  private List<String> actual = list("Luke", "Yoda", "Leia");
 
   @Test
   public void should_pass_if_actual_does_not_have_duplicates() {
@@ -89,7 +70,7 @@ public class Collections_assertDoesNotHaveDuplicates_Test extends
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
-  
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
@@ -112,5 +93,5 @@ public class Collections_assertDoesNotHaveDuplicates_Test extends
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
-  
+
 }

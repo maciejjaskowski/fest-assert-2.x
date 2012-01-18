@@ -18,7 +18,6 @@ import static java.util.Collections.emptyList;
 
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -26,18 +25,14 @@ import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertion
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Collections#assertDoesNotContain(AssertionInfo, Collection, Object[])}</code>.
@@ -45,28 +40,9 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Collections_assertDoesNotContain_Test extends AbstractTest_for_Collections_with_custom_comparison_strategy {
+public class Collections_assertDoesNotContain_Test extends AbstractTest_for_Collections {
 
-  private static List<String> actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Collections collections;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = list("Luke", "Yoda", "Leia");
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    collections = new Collections();
-    collections.failures = failures;
-    initCollectionsWithCustomComparisonStrategy(failures);
-  }
+  private static List<String> actual = list("Luke", "Yoda", "Leia");;
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {
