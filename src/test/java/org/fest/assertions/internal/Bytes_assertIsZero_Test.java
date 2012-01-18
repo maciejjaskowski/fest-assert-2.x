@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -28,14 +28,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Bytes_assertIsZero_Test {
-
-  private Bytes bytes;
-
-  @Before
-  public void setUp() {
-    bytes = new Bytes();
-  }
+public class Bytes_assertIsZero_Test extends AbstractTest_for_Bytes {
 
   @Test
   public void should_succeed_since_actual_is_zero() {
@@ -48,6 +41,20 @@ public class Bytes_assertIsZero_Test {
       bytes.assertIsZero(someInfo(), (byte) 2);
     } catch (AssertionError e) {
       assertEquals(e.getMessage(), "expected:<[0]> but was:<[2]>");
+    }
+  }
+
+  @Test
+  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+    bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 1);
+  }
+
+  @Test
+  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    try {
+      bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 0);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
     }
   }
 

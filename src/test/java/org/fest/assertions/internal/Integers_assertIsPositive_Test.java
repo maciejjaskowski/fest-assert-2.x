@@ -46,7 +46,7 @@ public class Integers_assertIsPositive_Test extends AbstractTest_for_Integers{
   
   @Test
   public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<0> to be greater than:<0>");
+    thrown.expectAssertionError("expected:<0> to be greater than:<0> according to 'AbsValueComparator' comparator");
     integersWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), 0);
   }
   

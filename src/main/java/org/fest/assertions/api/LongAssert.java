@@ -18,7 +18,8 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.Longs;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for longs.
@@ -35,7 +36,6 @@ import org.fest.util.*;
  */
 public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
 
-  // TODO FEST-64 test  
   @VisibleForTesting Longs longs = Longs.instance();
 
   protected LongAssert(Long actual) {

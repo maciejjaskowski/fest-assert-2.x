@@ -18,7 +18,8 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.Integers;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for integers.
@@ -35,7 +36,6 @@ import org.fest.util.*;
  */
 public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integer> implements NumberAssert<Integer> {
 
-  // TODO FEST-64 test  
   @VisibleForTesting Integers integers = Integers.instance();
 
   protected IntegerAssert(Integer actual) {

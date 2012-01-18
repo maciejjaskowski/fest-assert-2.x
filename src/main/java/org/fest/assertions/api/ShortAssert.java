@@ -18,7 +18,8 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.Shorts;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for shorts.
@@ -34,7 +35,6 @@ import org.fest.util.*;
  */
 public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> implements NumberAssert<Short> {
 
-  // TODO FEST-64 
   @VisibleForTesting Shorts shorts = Shorts.instance();
 
   protected ShortAssert(Short actual) {

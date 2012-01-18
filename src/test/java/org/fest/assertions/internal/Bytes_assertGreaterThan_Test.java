@@ -15,19 +15,15 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Bytes#assertGreaterThan(AssertionInfo, Byte, byte)}</code>.
@@ -35,21 +31,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Bytes_assertGreaterThan_Test extends AbstractTest_for_Bytes_with_custom_comparison_strategy {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Bytes bytes;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    bytes = new Bytes();
-    bytes.setFailures(failures);
-    initBytesWithCustomComparisonStrategy(failures);
-  }
+public class Bytes_assertGreaterThan_Test extends AbstractTest_for_Bytes {
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -88,7 +70,7 @@ public class Bytes_assertGreaterThan_Test extends AbstractTest_for_Bytes_with_cu
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
-
+ 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) -8, (byte) 6);

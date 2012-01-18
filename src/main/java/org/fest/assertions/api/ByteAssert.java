@@ -18,7 +18,8 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.Bytes;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for bytes.
@@ -34,7 +35,6 @@ import org.fest.util.*;
  */
 public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> implements NumberAssert<Byte> {
 
-  // TODO FEST-64 
   @VisibleForTesting Bytes bytes = Bytes.instance();
 
   protected ByteAssert(Byte actual) {
