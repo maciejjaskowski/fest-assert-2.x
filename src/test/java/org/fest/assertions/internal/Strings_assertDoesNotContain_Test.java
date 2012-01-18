@@ -29,13 +29,15 @@ import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.util.CaseInsensitiveStringComparator;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * Tests for <code>{@link Strings#assertDoesNotContain(AssertionInfo, String, String)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class Strings_assertDoesNotContain_Test extends AbstractTest_for_Strings_with_custom_comparison_strategy {
+public class Strings_assertDoesNotContain_Test extends AbstractTest_for_Strings {
 
   @Rule
   public ExpectedException thrown = none();
@@ -48,7 +50,9 @@ public class Strings_assertDoesNotContain_Test extends AbstractTest_for_Strings_
     failures = spy(new Failures());
     strings = new Strings();
     strings.failures = failures;
-    initStringsWithCustomComparisonStrategy(failures);
+    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
+    stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
+    stringsWithCaseInsensitiveComparisonStrategy.failures = failures;
   }
 
   @Test

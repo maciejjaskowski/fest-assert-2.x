@@ -84,7 +84,6 @@ public class BooleanAssert extends AbstractAssert<BooleanAssert, Boolean> {
     return this;
   }
 
-  // TODO FEST-64 unit test
   @Override
   public BooleanAssert usingComparator(Comparator<?> customComparator) {
     throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");

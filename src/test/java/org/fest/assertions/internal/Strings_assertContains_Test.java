@@ -16,19 +16,15 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldContainString.shouldContain;
 import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Strings#assertContains(AssertionInfo, String, String)}</code>.
@@ -36,21 +32,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertContains_Test extends AbstractTest_for_Strings_with_custom_comparison_strategy {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Strings strings;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    strings = new Strings();
-    strings.failures = failures;
-    initStringsWithCustomComparisonStrategy(failures);
-  }
+public class Strings_assertContains_Test extends AbstractTest_for_Strings {
 
   @Test
   public void should_fail_if_actual_does_not_contain_sequence() {
