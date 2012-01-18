@@ -15,46 +15,28 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Collections#assertDoesNotContainNull(AssertionInfo, Collection)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Lists_assertIsSorted_Test extends AbstractTest_for_Lists_with_custom_comparison_strategy {
+public class Lists_assertIsSorted_Test extends AbstractTest_for_Lists {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private List<String> actual;
-  private Failures failures;
-  private Lists lists;
-
-  @Before
-  public void setUp() {
-    actual = list("Leia", "Luke", "Luke", "Vador", "Yoda");
-    failures = spy(new Failures());
-    lists = new Lists();
-    lists.failures = failures;
-    initListsWithCustomComparisonStrategy(failures);
-  }
+  private List<String> actual = list("Leia", "Luke", "Luke", "Vador", "Yoda");
 
   @Test
   public void should_pass_if_actual_is_sorted_in_ascending_order() {
