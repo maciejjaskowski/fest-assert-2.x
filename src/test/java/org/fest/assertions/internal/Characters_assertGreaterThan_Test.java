@@ -15,19 +15,15 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Characters#assertGreaterThan(AssertionInfo, Character, char)}</code>.
@@ -35,21 +31,7 @@ import org.fest.assertions.test.ExpectedException;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Characters_assertGreaterThan_Test extends AbstractTest_for_Characters_with_custom_comparison_strategy {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Characters characters;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    characters = new Characters();
-    characters.failures = failures;
-    initCharactersWithCustomComparisonStrategy(failures);
-  }
+public class Characters_assertGreaterThan_Test extends AbstractTest_for_Characters {
 
   @Test
   public void should_fail_if_actual_is_null() {

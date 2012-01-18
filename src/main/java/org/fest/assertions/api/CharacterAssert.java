@@ -17,7 +17,8 @@ package org.fest.assertions.api;
 import java.util.Comparator;
 
 import org.fest.assertions.internal.Characters;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for characters.
@@ -30,10 +31,10 @@ import org.fest.util.*;
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, Character> {
 
-  // TODO FEST-64 
   @VisibleForTesting Characters characters = Characters.instance();
 
   protected CharacterAssert(Character actual) {
