@@ -48,9 +48,8 @@ public class ShouldContainString_create_Test {
     factory = shouldContain("Yoda", "Luke", new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals(
-        "[Test] expecting:<'Yoda'> to contain:<'Luke'> according to 'CaseInsensitiveStringComparator' comparator",
-        message);
+    assertEquals("[Test] expecting:<'Yoda'> to contain:<'Luke'> "
+        + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 
   @Test

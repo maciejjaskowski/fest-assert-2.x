@@ -31,6 +31,7 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
 public class ShouldNotContain_create_Test {
 
@@ -46,8 +47,7 @@ public class ShouldNotContain_create_Test {
     ErrorMessageFactory factory = shouldNotContain(list("Yoda"), list("Luke", "Yoda"), set("Yoda"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals(
-        "[Test] expecting:<['Yoda']> not to contain:<['Luke', 'Yoda']> but found:<['Yoda']> according to 'CaseInsensitiveStringComparator' comparator",
-        message);
+    assertEquals("[Test] expecting:<['Yoda']> not to contain:<['Luke', 'Yoda']> but found:<['Yoda']> "
+        + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

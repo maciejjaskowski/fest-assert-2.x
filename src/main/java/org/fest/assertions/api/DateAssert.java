@@ -16,7 +16,6 @@ import org.fest.assertions.internal.Failures;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
-// TODO test case with string date not following expected format (null or bad format)
 /**
  * 
  * Assertions for {@code Date}s.
